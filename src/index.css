@@ -1,0 +1,26 @@
+/* Este archivo debe estar casi vacío para no estorbar a variables.css */
+
+:root {
+  line-height: 1.5;
+  font-weight: 400;
+  
+  /* Aseguramos que la app ocupe todo el alto y ancho real */
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  display: block; /* Importante: Vite a veces pone 'flex' aquí y rompe todo */
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: block; /* Quitamos restricciones de ancho máximo */
+}

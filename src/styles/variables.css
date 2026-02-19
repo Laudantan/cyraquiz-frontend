@@ -1,0 +1,500 @@
+/* =========================================
+   1. IMPORTACIONES (Fuentes de Google)
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Poppins:wght@400;600;700&display=swap');
+
+/* =========================================
+   2. VARIABLES GLOBALES (Tus Colores)
+   ========================================= */
+:root {
+  /* --- Tipografía --- */
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Montserrat', sans-serif;
+
+  /* --- Colores de Marca (TEMA VINO) --- */
+  --color-primary: #5A0E24;       /* Tu nuevo color Vino */
+  --color-primary-light: #851535; /* Un vino más claro para el efecto Hover */
+  --color-secondary: #574964;     /* Gris Violáceo (Se queda igual para contraste) */
+
+  /* --- Fondos --- */
+  --bg-main: #F0F0F0;             /* Gris muy claro */
+  --bg-card: #FFFFFF;             /* Blanco puro */
+  --bg-soft: #FFDAB3;             /* Durazno suave */
+  
+  /* --- Textos --- */
+  --text-main: #2D2D2D;           /* Casi negro */
+  --text-inverted: #FFFFFF;       /* Blanco */
+  --text-muted: #9F8383;          /* Gris rosado */
+
+  /* --- Estados (Alertas) --- */
+  --state-success: #D8E983;       /* Verde Lima */
+  --state-error: #E49BA6;         /* Rojo suave */
+  --state-error-bg: #FFD3D5;      /* Fondo rojo suave */
+
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow-hover: 0 15px 45px rgba(90, 14, 36, 0.15);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* =========================================
+   3. RESET GLOBAL BÁSICO
+   ========================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Títulos y Botones usan Poppins */
+h1, h2, h3, h4, button {
+  font-family: var(--font-heading);
+}
+
+/* =========================================
+   4. ESTILOS DE PANTALLA: LOGIN / REGISTRO
+   ========================================= */
+
+/* El contenedor principal (FONDO COMPLETO) */
+.login-container {
+  min-height: 100vh;
+  width: 100%;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* FONDO: Imagen limpia */
+  background-image: url('/Fondo1.jpg');
+  background-size: cover;       
+  background-position: center;  
+  background-repeat: no-repeat;
+}
+
+/* CAJA VINO (#5A0E24 con transparencia) */
+.login-purple-box {
+  /* RGBA de tu color #5A0E24 con 90% de opacidad */
+  background-color: rgba(90, 14, 36, 0.9); 
+  
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  
+  width: 95%;
+  max-width: 450px; 
+  
+  display: flex;
+  justify-content: center;
+}
+
+/* La tarjeta blanca */
+.login-card {
+  background-color: var(--bg-card);
+  padding: 40px;
+  border-radius: 15px;
+  
+  width: 100%;
+  text-align: center;
+}
+
+/* Título */
+.login-title {
+  color: var(--color-primary); /* Ahora será color Vino automáticamente */
+  margin-bottom: 20px;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* --- Formulario --- */
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.login-label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: var(--color-secondary);
+  font-size: 0.9rem;
+}
+
+.login-input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 2px solid #E0E0E0;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.login-input:focus {
+  border-color: var(--color-primary); /* Borde Vino al escribir */
+}
+
+/* Botón de Ingresar */
+.login-button {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--color-primary); /* Fondo Vino */
+  color: var(--text-inverted);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.2s ease;
+}
+
+.login-button:hover {
+  background-color: var(--color-primary-light); /* Se aclara un poco al pasar el mouse */
+  transform: translateY(-2px);
+}
+
+/* Mensaje de Error */
+.login-error {
+  background-color: var(--state-error-bg);
+  color: #8B0000;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  border: 1px solid var(--state-error);
+}
+
+/* Links de abajo */
+.login-footer {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.login-link {
+  color: var(--color-primary-light); /* Link color vino claro */
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
+
+/* =========================================
+   5. ESTILOS DEL DASHBOARD (HOST)
+   ========================================= */
+
+/* Barra Superior */
+.navbar {
+  /* Fondo y Color */
+  background-color: var(--color-primary);
+  color: #FFFFFF; /* Texto blanco forzado */
+  
+  /* Alineación PERFECTA (Esto es lo que faltaba) */
+  display: flex; 
+  justify-content: space-between; /* Empuja logo a la izq y usuario a la der */
+  align-items: center; /* Centra verticalmente */
+  
+  /* Dimensiones */
+  width: 100%;
+  height: 80px; /* Un poco más alta para que respire */
+  padding: 0 40px; /* Espacio a los lados */
+  
+  /* Sombra suave para que se distinga del fondo gris */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 100;
+}
+
+.navbar h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.btn-logout {
+  background-color: rgba(255,255,255,0.2);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.4);
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  background-color: rgba(255,255,255,0.3);
+}
+
+/* Contenedor Principal del Dashboard */
+.dashboard-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* Columna izq pequeña, der grande */
+  gap: 30px;
+}
+
+/* Tarjetas Generales */
+.card {
+  background: var(--bg-card);
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
+  border-top: 5px solid var(--color-primary); /* Borde decorativo vino */
+}
+
+/* Estilo especial para el Código de Sala */
+.room-code-box {
+  text-align: center;
+}
+
+.room-code-display {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  color: var(--color-primary);
+  letter-spacing: 5px;
+  margin: 10px 0;
+  font-weight: 700;
+}
+
+/* Lista de jugadores */
+.player-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.player-tag {
+  background-color: #F3E5F5; /* Lila muy suave */
+  color: var(--color-primary);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid var(--color-primary-light);
+}
+
+/* Editor de Preguntas */
+.question-card {
+  background: #FAFAFA;
+  border: 1px solid #E0E0E0;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  transition: transform 0.2s;
+}
+
+.question-card:hover {
+  transform: translateX(5px);
+  border-left: 4px solid var(--color-primary);
+}
+
+.option-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.option-item {
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  border: 1px solid #ddd;
+}
+
+.option-correct {
+  background-color: #E8F5E9; /* Verde muy suave */
+  border-color: var(--state-success-dark);
+  color: #2E7D32;
+  font-weight: 600;
+}
+
+/* Responsivo para celulares */
+@media (max-width: 768px) {
+  .dashboard-container {
+    grid-template-columns: 1fr; /* Una sola columna en cel */
+  }
+}
+
+.quiz-card {
+  background: white;
+  padding: 24px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid #f0f0f0;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quiz-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--color-primary-light);
+}
+
+/* Botón "Crear" con más estilo */
+.btn-create-quiz {
+  background: white;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  padding: 12px 28px;
+  border-radius: 50px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: var(--transition);
+}
+
+.btn-create-quiz:hover {
+  background: var(--color-primary);
+  color: white;
+  box-shadow: 0 8px 20px rgba(90, 14, 36, 0.2);
+}
+
+.dashboard-container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.btn-create-quiz:hover {
+  transform: translateY(-2px);
+  background-color: var(--color-primary-light);
+  box-shadow: 0 6px 20px rgba(90, 14, 36, 0.3);
+}
+
+/* Re-definimos la card para que se vea "Limpia" */
+.quiz-card {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  border: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.quiz-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.cta-section {
+  text-align: center;
+  margin: 40px 0; /* Espacio arriba y abajo */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.cta-text {
+  color: #96A78D; /* Color Vino Rojizo */
+  font-family: var(--font-heading);
+  font-size: 1.6rem; /* Tamaño grande */
+  font-weight: 550; /* Letra fina/normal como en la imagen */
+  line-height: 1.4;
+}
+
+.btn-dusty {
+  background-color: #9F8383; /* Color Rosado Oscuro/Café */
+  color: white; /* Letras Blancas */
+  padding: 18px 60px; /* Botón ancho */
+  border-radius: 20px; /* Bordes redondeados pero no circular */
+  border: none;
+  font-family: var(--font-heading);
+  font-weight: 700; /* Letra negrita */
+  font-size: 1.4rem;
+  text-transform: uppercase; /* MAYÚSCULAS */
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.btn-dusty:hover {
+  transform: translateY(-2px); /* Pequeño efecto al pasar el mouse */
+  opacity: 0.9;
+}
+
+/* === ESTILOS DEL MODAL (VENTANA FLOTANTE) === */
+
+/* El fondo oscuro que tapa la página de atrás */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Negro semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Para que quede ENCIMA de todo */
+  backdrop-filter: blur(5px); /* Efecto borroso elegante */
+}
+
+/* La ventana blanca flotante */
+.modal-content {
+  background: white;
+  width: 90%;
+  max-width: 600px; /* Tamaño ideal */
+  padding: 40px;
+  border-radius: 25px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  position: relative;
+  text-align: center;
+  animation: popIn 0.3s ease-out;
+}
+
+/* Animación para que aparezca suavemente */
+@keyframes popIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* El cuadro grande punteado para subir archivo */
+.upload-area {
+  border: 3px dashed #D8E983; /* Tu color verde */
+  background-color: #FAFAFA;
+  border-radius: 20px;
+  padding: 50px 20px;
+  margin: 30px 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-area:hover {
+  background-color: #F0F7E6;
+  border-color: #AEB877;
+}
+
+/* Botón para cerrar (la X) */
+.btn-close-modal {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #999;
+}
