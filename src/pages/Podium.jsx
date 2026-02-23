@@ -130,7 +130,8 @@ export default function Podium() {
           zIndex: 50
         }}>
           ⚡ ¡Empate de puntos! ⚡<br/>
-          <span style={{ fontSize: "1.2rem", fontWeight: "600" }}>Resolviendo por velocidad... el más rápido fue...</span>
+          <span style={{ fontSize: "1.2rem", fontWeight: "600" }}>Resolviendo por velocidad... el más rápido fue en <strong>{(first.timeAccumulated / 1000).toFixed(2)}s</strong>
+          </span>
         </div>
       )}
 
@@ -162,6 +163,7 @@ export default function Podium() {
               }}>
                 <span style={{ fontSize: "3.5rem", fontWeight: "900" }}>2</span>
                 <span style={{ fontSize: "1.5rem", fontWeight: "bold" }}>{second.score} pts</span>
+                {isTie && <span style={{ fontSize: "1rem", opacity: 0.8 }}>⏱️ {(second.timeAccumulated / 1000).toFixed(2)}s</span>}
               </div>
             </>
           )}
@@ -184,6 +186,7 @@ export default function Podium() {
               }}>
                 <span style={{ fontSize: "5rem", fontWeight: "900" }}>1</span>
                 <span style={{ fontSize: "2rem", fontWeight: "bold" }}>{first.score} pts</span>
+                {isTie && <span style={{ fontSize: "1.2rem", opacity: 0.9 }}>⏱️ {(first.timeAccumulated / 1000).toFixed(2)}s</span>}
               </div>
             </>
           )}

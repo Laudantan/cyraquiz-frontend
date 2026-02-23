@@ -56,11 +56,25 @@ export default function GameController() {
       
       const myIndex = sortedList.findIndex(p => p.name === myName);
       setFinalRank(myIndex + 1); // +1 porque el índice empieza en 0
+
+      if (myIndex !== -1) {
+        setResultData(prev => ({ ...prev, myTime: sortedList[myIndex].timeAccumulated }));
+      }
+
+      // --- NUEVO: Detectamos si hubo empate para sincronizar los relojes ---
+      const p1 = sortedList[0];
+      const p2 = sortedList[1];
+      const tieDetected = (p1 && p2 && p1.score === p2.score && p1.score > 0);
+
       setGameState("game_over");
 
       setTimeout(() => setPodiumStep(1), 500);  // Se revela el 3ro y el resto
       setTimeout(() => setPodiumStep(2), 2000); // Se revela el 2do
-      setTimeout(() => setPodiumStep(3), 4000); // Se revela el 1ro
+      if (tieDetected) {
+        setTimeout(() => setPodiumStep(3), 7500); // ⏱️ Si hay empate, espera el show de 7.5s
+      } else {
+        setTimeout(() => setPodiumStep(3), 4000); // ⏱️ Si no, a los 4s normales
+      }
     };
 
     const onGameCancelled = () => {
@@ -236,8 +250,15 @@ const circleBg = resultData.isCorrect ? "#00E676" : "#FF5252"; // Un tono más b
         
         <div style={{ marginTop: "40px", fontSize: "1.2rem", borderTop: `1px solid ${textColor}`, paddingTop: "20px", width: "80%" }}>
           Puntaje Final: <strong>{resultData.totalScore} pts</strong>
+          
+          {/* NUEVO: Mostramos el tiempo de reacción */}
+          {resultData.myTime > 0 && (
+            <div style={{ marginTop: "10px", fontSize: "1rem", opacity: 0.9 }}>
+              ⏱️ Tiempo de reacción: <strong>{(resultData.myTime / 1000).toFixed(2)}s</strong>
+            </div>
+          )}
         </div>
-
+        
         <button 
           onClick={() => navigate("/join")}
           style={{
