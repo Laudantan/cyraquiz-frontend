@@ -17,6 +17,7 @@ export default function Podium() {
 
   // Animación
   const [step, setStep] = useState(0);
+  const [isTie, setIsTie] = useState(false);
 
   useEffect(() => {
     console.log("🏆 Cargando podio... Pidiendo resultados finales.");
@@ -28,16 +29,24 @@ export default function Podium() {
     socket.on("final_results", (results) => {
       console.log("📦 Resultados recibidos:", results);
       
-      // Aseguramos que vengan ordenados (Mayor a menor)
-      const sorted = [...results].sort((a, b) => b.score - a.score);
-      setSortedPlayers(sorted);
+      // Aseguramos que vengan ordenados
+      setSortedPlayers(results);
+      const p1 = results[0];
+      const p2 = results[1];
+      const p3 = results[2];
 
-      setFirst(sorted[0]);
-      setSecond(sorted[1]);
-      setThird(sorted[2]);
+      setFirst(p1);
+      setSecond(p2);
+      setThird(p3);
+
+      let tieDetected = false;
+      if (p1 && p2 && p1.score === p2.score && p1.score > 0) {
+        tieDetected = true;
+        setIsTie(true);
+      }
 
       // INICIAR ANIMACIÓN (Solo cuando ya tenemos datos)
-      startAnimation();
+      startAnimation(tieDetected);
     });
 
     return () => {
@@ -48,10 +57,23 @@ export default function Podium() {
   const startAnimation = () => {
     setTimeout(() => setStep(1), 500);  // Muestra 3ro
     setTimeout(() => setStep(2), 2000); // Muestra 2do
-    setTimeout(() => {
-      setStep(3); // Muestra 1ro
-      triggerConfetti();
-    }, 4000);
+
+    if (tieDetected) {
+      // SUSPENSO: Muestra letrero de empate
+      setTimeout(() => setStep(2.5), 3500);
+      
+      // REVELACIÓN: Muestra al ganador tiempo después
+      setTimeout(() => {
+        setStep(3); 
+        triggerConfetti();
+      }, 7500);
+    } else {
+      // Flujo normal sin empate
+      setTimeout(() => {
+        setStep(3);
+        triggerConfetti();
+      }, 4000);
+    }
   };
 
   const triggerConfetti = () => {
@@ -92,6 +114,25 @@ export default function Podium() {
       }}>
         🏆 Podio Final 🏆
       </h1>
+
+      {step === 2.5 && isTie && (
+        <div style={{
+          backgroundColor: "#FFD700",
+          color: "#5A0E24",
+          padding: "15px 40px",
+          borderRadius: "50px",
+          fontWeight: "900",
+          fontSize: "1.5rem",
+          marginBottom: "20px",
+          animation: "popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
+          boxShadow: "0 5px 20px rgba(0,0,0,0.4)",
+          textAlign: "center",
+          zIndex: 50
+        }}>
+          ⚡ ¡Empate de puntos! ⚡<br/>
+          <span style={{ fontSize: "1.2rem", fontWeight: "600" }}>Resolviendo por velocidad... el más rápido fue...</span>
+        </div>
+      )}
 
       {/* ZONA DEL PODIO */}
       <div style={{ 
@@ -209,7 +250,9 @@ export default function Podium() {
         </button>
       )}
 
-      <style>{`@keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }`}</style>
+      <style>{`@keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+      @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 80% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+      `}</style>
     </div>
   );
 }
