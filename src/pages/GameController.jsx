@@ -68,12 +68,17 @@ export default function GameController() {
 
       setGameState("game_over");
 
-      setTimeout(() => setPodiumStep(1), 500);  // Se revela el 3ro y el resto
-      setTimeout(() => setPodiumStep(2), 2000); // Se revela el 2do
+      setTimeout(() => setPodiumStep(1), 500);  
+      
+      // Magia de sincronización arreglada:
       if (tieDetected) {
-        setTimeout(() => setPodiumStep(3), 7500); // ⏱️ Si hay empate, espera el show de 7.5s
+        // ⏱️ Retrasamos la pantalla del 2do lugar para que haya suspenso
+        setTimeout(() => setPodiumStep(2), 5000); 
+        setTimeout(() => setPodiumStep(3), 7500); 
       } else {
-        setTimeout(() => setPodiumStep(3), 4000); // ⏱️ Si no, a los 4s normales
+        // Flujo normal sin empates
+        setTimeout(() => setPodiumStep(2), 2000); 
+        setTimeout(() => setPodiumStep(3), 4000); 
       }
     };
 
@@ -258,7 +263,7 @@ const circleBg = resultData.isCorrect ? "#00E676" : "#FF5252"; // Un tono más b
             </div>
           )}
         </div>
-        
+
         <button 
           onClick={() => navigate("/join")}
           style={{

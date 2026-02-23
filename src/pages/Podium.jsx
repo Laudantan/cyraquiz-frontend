@@ -54,21 +54,24 @@ export default function Podium() {
     };
   }, []);
 
-  const startAnimation = (tieDetected) => {
+    const startAnimation = (tieDetected) => {
     setTimeout(() => setStep(1), 500);  // Muestra 3ro
-    setTimeout(() => setStep(2), 2000); // Muestra 2do
 
     if (tieDetected) {
-      // SUSPENSO: Muestra letrero de empate
-      setTimeout(() => setStep(2.5), 3500);
+      // 1. SUSPENSO: Muestra letrero ANTES de revelar a los empatados
+      setTimeout(() => setStep(1.5), 2500);
       
-      // REVELACIÓN: Muestra al ganador tiempo después
+      // 2. REVELA AL 2DO LUGAR (El que perdió por milisegundos)
+      setTimeout(() => setStep(2), 5000);
+      
+      // 3. REVELA AL GANADOR (1er lugar)
       setTimeout(() => {
         setStep(3); 
         triggerConfetti();
       }, 7500);
     } else {
       // Flujo normal sin empate
+      setTimeout(() => setStep(2), 2000); // Muestra 2do
       setTimeout(() => {
         setStep(3);
         triggerConfetti();
@@ -115,7 +118,7 @@ export default function Podium() {
         🏆 Podio Final 🏆
       </h1>
 
-      {step === 2.5 && isTie && (
+      {step === 1.5 && isTie && (
         <div style={{
           backgroundColor: "#FFD700",
           color: "#5A0E24",
