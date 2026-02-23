@@ -54,7 +54,7 @@ export default function Podium() {
     };
   }, []);
 
-  const startAnimation = () => {
+  const startAnimation = (tieDetected) => {
     setTimeout(() => setStep(1), 500);  // Muestra 3ro
     setTimeout(() => setStep(2), 2000); // Muestra 2do
 
