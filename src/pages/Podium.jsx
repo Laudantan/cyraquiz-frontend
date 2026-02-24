@@ -82,10 +82,10 @@ export default function Podium() {
       setTimeout(() => {
         setStep(3); 
         triggerConfetti();
-      }, 5500);
+      }, 6000);
     } else {
       // Flujo normal sin empate (escalonado)
-      setTimeout(() => setStep(2), 3000); // Muestra 2do
+      setTimeout(() => setStep(2), 2000); // Muestra 2do
       setTimeout(() => {
         setStep(3);
         triggerConfetti();
