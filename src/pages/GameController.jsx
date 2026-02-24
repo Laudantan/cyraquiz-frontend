@@ -64,8 +64,8 @@ export default function GameController() {
       // --- NUEVO: Detectamos si hubo empate para sincronizar los relojes ---
       const p1 = sortedList[0];
       const p2 = sortedList[1];
-      const tieDetected = (p1 && p2 && p1.score === p2.score && p1.score > 0);
-
+      const p3 = sortedList[2];
+      const tieDetected = (p1 && p2 && p1.score === p2.score && p1.score > 0) || (p2 && p3 && p2.score === p3.score && p2.score > 0);
       setGameState("game_over");
 
       setTimeout(() => setPodiumStep(1), 500);  

@@ -18,6 +18,7 @@ export default function Podium() {
   // Animación
   const [step, setStep] = useState(0);
   const [isTie, setIsTie] = useState(false);
+  const [tieMessage, setTieMessage] = useState("");
 
   useEffect(() => {
     console.log("🏆 Cargando podio... Pidiendo resultados finales.");
@@ -40,10 +41,21 @@ export default function Podium() {
       setThird(p3);
 
       let tieDetected = false;
-      if (p1 && p2 && p1.score === p2.score && p1.score > 0) {
+      let tieText = "";
+
+      const isTripleTie = p1 && p2 && p3 && p1.score === p2.score && p2.score === p3.score && p1.score > 0;
+      const isDoubleTie = (p1 && p2 && p1.score === p2.score && p1.score > 0) || (p2 && p3 && p2.score === p3.score && p2.score > 0);
+
+      if (isTripleTie) {
         tieDetected = true;
-        setIsTie(true);
+        tieText = "⚡ ¡INCREÍBLE! ¡TRIPLE EMPATE EN LA CIMA! ⚡";
+      } else if (isDoubleTie) {
+        tieDetected = true;
+        tieText = "⚡ ¡Empate de puntos detectado! ⚡";
       }
+
+      setIsTie(tieDetected);
+      setTieMessage(tieText);
 
       // INICIAR ANIMACIÓN (Solo cuando ya tenemos datos)
       startAnimation(tieDetected);
@@ -129,8 +141,9 @@ export default function Podium() {
           textAlign: "center",
           zIndex: 50
         }}>
-          ⚡ ¡Empate de puntos! ⚡<br/>
-          <span style={{ fontSize: "1.2rem", fontWeight: "600" }}>Resolviendo por velocidad... el más rápido fue en <strong>{(first.timeAccumulated / 1000).toFixed(2)}s</strong>
+        {tieMessage} <br/>
+          <span style={{ fontSize: "1.2rem", fontWeight: "600" }}>
+            Resolviendo posiciones por velocidad de respuesta...
           </span>
         </div>
       )}
@@ -163,7 +176,9 @@ export default function Podium() {
               }}>
                 <span style={{ fontSize: "3.5rem", fontWeight: "900" }}>2</span>
                 <span style={{ fontSize: "1.5rem", fontWeight: "bold" }}>{second.score} pts</span>
-                {isTie && <span style={{ fontSize: "1rem", opacity: 0.8 }}>⏱️ {(second.timeAccumulated / 1000).toFixed(2)}s</span>}
+                {second && ((first && second.score === first.score) || (third && second.score === third.score)) && (
+                  <span style={{ fontSize: "1rem", opacity: 0.8 }}>⏱️ {(second.timeAccumulated / 1000).toFixed(2)}s</span>
+                )}
               </div>
             </>
           )}
@@ -186,7 +201,9 @@ export default function Podium() {
               }}>
                 <span style={{ fontSize: "5rem", fontWeight: "900" }}>1</span>
                 <span style={{ fontSize: "2rem", fontWeight: "bold" }}>{first.score} pts</span>
-                {isTie && <span style={{ fontSize: "1.2rem", opacity: 0.9 }}>⏱️ {(first.timeAccumulated / 1000).toFixed(2)}s</span>}
+                {first && second && first.score === second.score && (
+                  <span style={{ fontSize: "1.2rem", opacity: 0.9 }}>⏱️ {(first.timeAccumulated / 1000).toFixed(2)}s</span>
+                )}
               </div>
             </>
           )}
@@ -208,6 +225,10 @@ export default function Podium() {
               }}>
                 <span style={{ fontSize: "3rem", fontWeight: "900" }}>3</span>
                 <span style={{ fontSize: "1.5rem", fontWeight: "bold" }}>{third.score} pts</span>
+              
+              {third && second && third.score === second.score && (
+                  <span style={{ fontSize: "1rem", opacity: 0.8 }}>⏱️ {(third.timeAccumulated / 1000).toFixed(2)}s</span>
+                )}
               </div>
             </>
           )}
