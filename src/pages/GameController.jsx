@@ -291,7 +291,7 @@ const circleBg = resultData.isCorrect ? "#00E676" : "#FF5252"; // Un tono más b
   // 5. PANTALLA DE JUEGO (BOTONES)
   // Esta es la vista por defecto ("answering")
   const colors = ["#B77466", "#851535", "#9195F6", "#574964"]; // Rojo, Azul, Amarillo, Verde
-  const icons = ["▲", "◆", "●", "■"];
+  const icons = ["🦖", "⭐", "🌸", "🌈"];
 
   return (
     <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
