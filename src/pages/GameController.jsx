@@ -72,12 +72,11 @@ export default function GameController() {
       
       // Magia de sincronización arreglada:
       if (tieDetected) {
-        // ⏱️ Retrasamos la pantalla del 2do lugar para que haya suspenso
-        setTimeout(() => setPodiumStep(2), 5000); 
-        setTimeout(() => setPodiumStep(3), 7500); 
+        // ⏱️ Esperamos a que pase el suspenso y revelamos TODO al mismo tiempo (Paso 3 directo)
+        setTimeout(() => setPodiumStep(3), 5500); 
       } else {
-        // Flujo normal sin empates
-        setTimeout(() => setPodiumStep(2), 2000); 
+        // Flujo normal sin empates (escalonado)
+        setTimeout(() => setPodiumStep(2), 3000); 
         setTimeout(() => setPodiumStep(3), 4000); 
       }
     };

@@ -58,24 +58,21 @@ export default function Podium() {
     setTimeout(() => setStep(1), 500);  // Muestra 3ro
 
     if (tieDetected) {
-      // 1. SUSPENSO: Muestra letrero ANTES de revelar a los empatados
+      // 1. SUSPENSO: Muestra letrero de empate
       setTimeout(() => setStep(1.5), 2500);
       
-      // 2. REVELA AL 2DO LUGAR (El que perdió por milisegundos)
-      setTimeout(() => setStep(2), 5000);
-      
-      // 3. REVELA AL GANADOR (1er lugar)
+      // 2. REVELA A LOS DOS AL MISMO TIEMPO (2do y 1er lugar juntos + confeti)
       setTimeout(() => {
         setStep(3); 
         triggerConfetti();
-      }, 7500);
+      }, 5500);
     } else {
-      // Flujo normal sin empate
-      setTimeout(() => setStep(2), 2000); // Muestra 2do
+      // Flujo normal sin empate (escalonado)
+      setTimeout(() => setStep(2), 3000); // Muestra 2do
       setTimeout(() => {
         setStep(3);
         triggerConfetti();
-      }, 4000);
+      }, 4000); // Muestra 1ro
     }
   };
 
