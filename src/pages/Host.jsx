@@ -253,7 +253,6 @@ const handleUpload = async () => {
                       display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "15px",
                       color: myColor, fontSize: "1.2rem"
                     }}>
-                      📝
                     </div>
 
                     <h3 style={{ margin: "0 0 10px 0", fontSize: '1.15rem', color: "#333", fontWeight: 700, lineHeight: 1.4 }}>
