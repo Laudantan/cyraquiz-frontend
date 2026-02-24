@@ -65,19 +65,23 @@ export default function GameController() {
       const p1 = sortedList[0];
       const p2 = sortedList[1];
       const p3 = sortedList[2];
-      const tieDetected = (p1 && p2 && p1.score === p2.score && p1.score > 0) || (p2 && p3 && p2.score === p3.score && p2.score > 0);
+      const isTripleTie = p1 && p2 && p3 && p1.score === p2.score && p2.score === p3.score && p1.score > 0;
+      const isDoubleTie = (p1 && p2 && p1.score === p2.score && p1.score > 0) || (p2 && p3 && p2.score === p3.score && p2.score > 0);
+      
       setGameState("game_over");
 
-      setTimeout(() => setPodiumStep(1), 500);  
-      
-      // Magia de sincronización arreglada:
-      if (tieDetected) {
-        // ⏱️ Esperamos a que pase el suspenso y revelamos TODO al mismo tiempo (Paso 3 directo)
-        setTimeout(() => setPodiumStep(3), 5500); 
+      if (isTripleTie) {
+        // Triple empate: NADIE sabe su resultado en el celular hasta que pase el suspenso
+        setTimeout(() => setPodiumStep(3), 6000);
+      } else if (isDoubleTie) {
+        // Empate doble: El 3ro lo sabe rápido (0.5s), el 1ro y 2do esperan el suspenso
+        setTimeout(() => setPodiumStep(1), 500);
+        setTimeout(() => setPodiumStep(3), 6000);
       } else {
-        // Flujo normal sin empates (escalonado)
-        setTimeout(() => setPodiumStep(2), 3000); 
-        setTimeout(() => setPodiumStep(3), 4000); 
+        // Flujo normal sin empates
+        setTimeout(() => setPodiumStep(1), 500);
+        setTimeout(() => setPodiumStep(2), 2000);
+        setTimeout(() => setPodiumStep(3), 4000);
       }
     };
 

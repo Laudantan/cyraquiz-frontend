@@ -19,6 +19,7 @@ export default function Podium() {
   const [step, setStep] = useState(0);
   const [isTie, setIsTie] = useState(false);
   const [tieMessage, setTieMessage] = useState("");
+  const [isTripleTie, setIsTripleTie] = useState(false);
 
   useEffect(() => {
     console.log("🏆 Cargando podio... Pidiendo resultados finales.");
@@ -43,15 +44,19 @@ export default function Podium() {
       let tieDetected = false;
       let tieText = "";
 
-      const isTripleTie = p1 && p2 && p3 && p1.score === p2.score && p2.score === p3.score && p1.score > 0;
-      const isDoubleTie = (p1 && p2 && p1.score === p2.score && p1.score > 0) || (p2 && p3 && p2.score === p3.score && p2.score > 0);
+      const isTripleTieCheck = p1 && p2 && p3 && p1.score === p2.score && p2.score === p3.score && p1.score > 0;
+      const isDoubleTieCheck = (p1 && p2 && p1.score === p2.score && p1.score > 0) || (p2 && p3 && p2.score === p3.score && p2.score > 0);
 
-      if (isTripleTie) {
+      if (isTripleTieCheck) {
         tieDetected = true;
         tieText = "⚡ ¡INCREÍBLE! ¡TRIPLE EMPATE EN LA CIMA! ⚡";
-      } else if (isDoubleTie) {
+        setIsTripleTie(true); // Avisamos que es triple
+      } else if (isDoubleTieCheck) {
         tieDetected = true;
         tieText = "⚡ ¡Empate de puntos detectado! ⚡";
+        setIsTripleTie(false);
+      } else {
+        setIsTripleTie(false);
       }
 
       setIsTie(tieDetected);
@@ -210,7 +215,7 @@ export default function Podium() {
         </div>
 
         {/* 🥉 TERCER LUGAR */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "30%", opacity: step >= 1 ? 1 : 0, transition: "all 0.5s", transform: step >= 1 ? "translateY(0)" : "translateY(50px)" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "30%", opacity: (step >= 1 && !isTripleTie) || step >= 3 ? 1 : 0, transition: "all 0.5s", transform: (step >= 1 && !isTripleTie) || step >= 3 ? "translateY(0)" : "translateY(50px)" }}>
           {third && (
             <>
               <div style={{ marginBottom: "15px", textAlign: "center" }}>
@@ -225,8 +230,9 @@ export default function Podium() {
               }}>
                 <span style={{ fontSize: "3rem", fontWeight: "900" }}>3</span>
                 <span style={{ fontSize: "1.5rem", fontWeight: "bold" }}>{third.score} pts</span>
-              
-              {third && second && third.score === second.score && (
+                
+                {/* --- RELOJ INTELIGENTE 3ER LUGAR --- */}
+                {third && second && third.score === second.score && (
                   <span style={{ fontSize: "1rem", opacity: 0.8 }}>⏱️ {(third.timeAccumulated / 1000).toFixed(2)}s</span>
                 )}
               </div>
