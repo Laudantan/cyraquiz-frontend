@@ -12,6 +12,8 @@ export default function Host() {
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const [isExtractMode, setIsExtractMode] = useState(false);
+
   // NUEVO: Estado para guardar el ID del quiz recién creado y mostrar la pantalla de éxito
   const [successData, setSuccessData] = useState(null);
 
@@ -75,7 +77,8 @@ const [quizToDelete, setQuizToDelete] = useState(null);
   const closeModal = () => {
     setShowModal(false);
     setFile(null);
-    setSuccessData(null); // Limpiamos el éxito para la próxima
+    setSuccessData(null);
+    setIsExtractMode(false); 
    };
 
 const handleUpload = async () => {
@@ -86,6 +89,7 @@ const handleUpload = async () => {
     try {
       const formData = new FormData();
       formData.append("pdfFile", file);
+      formData.append("casillaMarcada", isExtractMode);
 
       const response = await fetch("https://cyraquiz.onrender.com/upload", {
         method: "POST",
@@ -341,6 +345,19 @@ const handleUpload = async () => {
                   </div>
                 )}
 
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px', justifyContent: 'center', backgroundColor: '#f9f9f9', padding: '15px', borderRadius: '10px', border: '1px solid #eee' }}>
+                  <input 
+                    type="checkbox" 
+                    id="extractCheckbox" 
+                    checked={isExtractMode}
+                    onChange={(e) => setIsExtractMode(e.target.checked)}
+                    style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: '#5A0E24' }}
+                  />
+                  <label htmlFor="extractCheckbox" style={{ cursor: 'pointer', color: '#333', fontWeight: '600', fontSize: '0.95rem' }}>
+                    El PDF ya trae un examen (Solo extraer)
+                  </label>
+                </div>
+
                 <button 
                   onClick={handleUpload}
                   disabled={!file || loading}
@@ -348,7 +365,7 @@ const handleUpload = async () => {
                 >
                   {loading ? (
                     <span style={{ display: "flex", alignItems: "center", gap: "10px", justifyContent: "center" }}>
-                      ⏳ Generando...
+                      Generando...
                     </span>
                   ) : "GENERAR PREGUNTAS"}
                 </button>
