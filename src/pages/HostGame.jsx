@@ -278,7 +278,7 @@ useEffect(() => {
       {isShowingResult && (
           <div style={{ display: "flex", gap: "40px", alignItems: "stretch", height: "250px", width: "100%", maxWidth: "800px", position: "relative" }}>
             {stats.map((count, i) => {
-                const barColors = ["#C6685D", "#A50E24", "#9195F6", "#574964"];
+                const barColors = ["#EDA35A", "#A50E24", "#9195F6", "#574964"];
                 const icons = ["▲", "◆", "●", "■"];
                 
                 const optionString = currentQ.options[i];

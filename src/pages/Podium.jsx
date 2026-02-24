@@ -22,7 +22,7 @@ export default function Podium() {
   const [isTripleTie, setIsTripleTie] = useState(false);
 
   useEffect(() => {
-    console.log("🏆 Cargando podio... Pidiendo resultados finales.");
+    console.log("Cargando podio... Pidiendo resultados finales.");
 
     // 1. PEDIR RESULTADOS AL SERVIDOR
     socket.emit("game_over", roomCode);
