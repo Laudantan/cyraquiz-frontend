@@ -159,124 +159,151 @@ useEffect(() => {
     }}>
 
       {/* HEADER: ORGANIZADO COMO LA IMAGEN */}
-      <div style={{ 
-        padding: "20px 40px", 
-        display: "grid", 
-        gridTemplateColumns: "150px 1fr 150px", 
-        alignItems: "start",
-        transition: "all 0.5s ease",
-        height: isShowingResult ? "15vh" : "30vh", // Se encoge al mostrar resultados
-        minHeight: "120px",
+     <div style={{ 
+        padding: "30px 50px", 
+        display: "flex", 
+        justifyContent: "space-between", 
+        alignItems: "center",
+        width: "100%",
+        boxSizing: "border-box",
         position: "relative", 
         zIndex: 10
-      }}>
+      }}> 
 
-        {/* COLUMNA IZQUIERDA: Salir, Contador Preguntas, Respuestas */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "40px", alignItems: "flex-start" }}>
-          
-          {/* Botón Salir */}
-          <button 
-            onClick={() => setShowCancelModal(true)}
-            style={{ 
-              background: "#5A0E24", color: "white", border: "none", 
-              padding: "7px 18px", borderRadius: "20px", fontWeight: "bold", cursor: "pointer",
-              fontSize: "0.8rem"
-            }}
-          >
-            Salir
-          </button>
+  {/* 1. BOTÓN SALIR (Izquierda) */}
+        <button 
+          onClick={() => setShowCancelModal(true)}
+          style={{ 
+            background: "#7A1032", // Un rojo más oscuro como en la imagen
+            color: "white", 
+            border: "none", 
+            padding: "10px 25px", 
+            borderRadius: "30px", 
+            fontWeight: "bold", 
+            cursor: "pointer",
+            fontSize: "1rem",
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.15)"
+          }}
+        >
+          <span>←</span> Salir
+        </button>
 
-          {/* Contador Preguntas (1/10) */}
-          <div style={{ background: "#FFDAB3", color: "#5A0E24", padding: "8px 20px", borderRadius: "20px", fontWeight: "800", fontSize: "1rem" }}>
-            {currentQuestionIndex + 1} / {questionsList.length}
+        {/* 2. PROGRESO Y RESPUESTAS (Centro) */}
+        <div style={{ display: "flex", gap: "50px", textAlign: "center", color: "#4A5568" }}>
+          <div>
+            <div style={{ fontSize: "0.8rem", fontWeight: "700", letterSpacing: "1px", marginBottom: "5px" }}>PROGRESO</div>
+            <div style={{ fontSize: "1.4rem", fontWeight: "900", color: "#1A202C" }}>{currentQuestionIndex + 1}/{questionsList.length}</div>
           </div>
-
-          {/* Contador de Respuestas (Caja Gris) */}
-          <div style={{ background: "#D9D9D9", color: "#5A0E24", width: "90px", height: "80px", borderRadius: "10px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 0 rgba(0,0,0,0.1)" }}>
-             <span style={{ fontSize: "2rem", fontWeight: "900", lineHeight: "1" }}>{answersCount}</span>
-             <span style={{ fontSize: "0.7rem", fontWeight: "bold" }}>Respuestas</span>
+          <div>
+            <div style={{ fontSize: "0.8rem", fontWeight: "700", letterSpacing: "1px", marginBottom: "5px" }}>RESPUESTAS</div>
+            <div style={{ fontSize: "1.4rem", fontWeight: "900", color: "#1A202C" }}>{answersCount}</div>
           </div>
-
-        </div>
-        
-        {/* COLUMNA CENTRAL: Pregunta */}
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <h2 style={{ 
-            fontSize: isShowingResult ? "1.5rem" : "2.8rem", 
-            textAlign: "center", 
-            fontWeight: "800", 
-            transition: "all 0.5s ease",
-            margin: 0
-          }}>
-            {currentQ.question}
-          </h2>
         </div>
 
-        {/* COLUMNA DERECHA: Timer y Puntos */}
+        {/* 3. TIEMPO Y PUNTOS (Derecha - Cápsula con gradiente) */}
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}></div>
         <div style={{ 
-  display: "flex", 
-  flexDirection: "column", 
-  gap: "20px", // Espacio entre elementos
-  alignItems: "center", // Centra el botón respecto a los puntos
-  justifyContent: "flex-start" 
-}}>
-          {/* Timer (Círculo Morado) */}
-<div style={{ 
-            background: (timeLeft !== null && timeLeft <= 5) ? "#FF1744" : "#574964", // <--- LÓGICA DEL COLOR
-            transition: "background 0.3s ease", // <--- Transición suave
-            color: "white", width: "90px", height: "90px", borderRadius: "50%", 
-            display: "flex", alignItems: "center", justifyContent: "center", 
-            fontSize: "2rem", fontWeight: "bold", border: "4px solid white", 
-            boxShadow: "0 4px 10px rgba(0,0,0,0.1)" 
-          }}>
-            {formatTime(timeLeft)}
-          </div>
-
-          {/* Puntos (Etiqueta Dorada) */}
-          <div style={{ background: "#D8BC58", color: "white", padding: "10px 20px", borderRadius: "15px", fontWeight: "bold", textAlign: "center", minWidth: "90px" }}>
-            <div style={{ fontSize: "1.3rem", lineHeight: "1" }}>{currentQ.points || 100}</div>
-            <div style={{ fontSize: "1rem" }}>PUNTOS</div>
-          </div>
-
-{isShowingResult && (
-      <button 
-        onClick={handleNext} 
-        style={{ 
-          width: "55px", 
-          height: "55px", 
-          borderRadius: "50%", 
+          display: "flex", 
+          alignItems: "center", 
           background: "white", 
-          color: "#5A0E24", 
-          border: "none", 
-          cursor: "pointer", 
-          boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "1.5rem",
-          transition: "transform 0.2s active"
-        }}
-      >
-        ➡
-      </button>
-    )}
-  </div>
-</div>
+          borderRadius: "40px", 
+          padding: "10px 25px", 
+          boxShadow: "0 0 15px rgba(168, 164, 255, 0.4)", // Efecto glow morado
+          border: "2px solid #E2E8F0",
+          gap: "25px" 
+        }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ fontSize: "0.75rem", fontWeight: "700", color: "#4A5568", display: "flex", alignItems: "center", gap: "5px" }}>
+              ⏱ TIEMPO
+            </div>
+            <div style={{ fontSize: "1.3rem", fontWeight: "900", color: "#1A202C" }}>{formatTime(timeLeft)}</div>
+            {/* Pequeña barra decorativa morada */}
+            <div style={{ width: "100%", height: "4px", background: "#A8A4FF", borderRadius: "2px", marginTop: "4px" }}></div>
+          </div>
+          
+          <div style={{ width: "2px", height: "40px", background: "#E2E8F0" }}></div> {/* Separador vertical */}
+          
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <div style={{ fontSize: "0.75rem", fontWeight: "700", color: "#4A5568", display: "flex", alignItems: "center", gap: "5px" }}>
+              🏆 PUNTOS
+            </div>
+            <div style={{ fontSize: "1.3rem", fontWeight: "900", color: "#1A202C" }}>{currentQ.points || 100}</div>
+            {/* Pequeña barra decorativa morada */}
+            <div style={{ width: "100%", height: "4px", background: "#A8A4FF", borderRadius: "2px", marginTop: "4px" }}></div>
+          </div>
+        </div>
+
+        {/* BOTÓN SIGUIENTE (Solo aparece cuando sale la gráfica) */}
+          {isShowingResult && (
+            <button 
+              onClick={handleNext} 
+              style={{ 
+                background: "#2563EB", // Un azul vibrante que contrasta
+                color: "white", 
+                border: "none", 
+                padding: "12px 25px", 
+                borderRadius: "30px", 
+                fontWeight: "900", 
+                cursor: "pointer", 
+                fontSize: "1.1rem",
+                boxShadow: "0 5px 0 #1D4ED8, 0 8px 15px rgba(0,0,0,0.2)", // Efecto botón 3D
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                transition: "transform 0.1s active" // Efecto al hacer clic
+              }}
+              // Efecto visual al presionar (el botón se "hunde")
+              onMouseDown={(e) => { e.currentTarget.style.transform = "translateY(5px)"; e.currentTarget.style.boxShadow = "0 0px 0 #1D4ED8, 0 2px 5px rgba(0,0,0,0.2)"; }}
+              onMouseUp={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 5px 0 #1D4ED8, 0 8px 15px rgba(0,0,0,0.2)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 5px 0 #1D4ED8, 0 8px 15px rgba(0,0,0,0.2)"; }}
+            >
+              Siguiente ➡
+            </button>
+          )}
+
+      </div>
+        
+        {/* --- PREGUNTA CENTRAL --- */}
+      <div style={{ 
+        display: "flex", 
+        justifyContent: "center", 
+        alignItems: "center",
+        padding: isShowingResult ? "5px 40px" : "30px 40px",
+        flex: isShowingResult ? 0 : 1, // Si hay resultados, le quita espacio para dar lugar a la gráfica
+        transition: "all 0.5s ease"
+      }}>
+        <h2 style={{ 
+          fontSize: isShowingResult ? "1.8rem" : "3rem", 
+          textAlign: "center", 
+          fontWeight: "900", 
+          color: "#5A0E24", // Rojo oscuro de la imagen
+          maxWidth: "900px",
+          lineHeight: "1.3",
+          margin: 0,
+          transition: "all 0.5s ease"
+        }}>
+          {currentQ.question}
+        </h2>
+      </div>
 
       {/* --- ÁREA DE GRÁFICA (Solo aparece cuando isShowingResult es true) --- */}
       <div style={{ 
-        flex: 1, 
         display: "flex", 
         justifyContent: "center", 
         alignItems: "flex-end", 
-        padding: "0 50px 20px 50px",
+        padding: "0 50px 15px 50px",
+        // Aquí controlamos que no crezca de más. Si no hay resultados, mide 0.
+        height: isShowingResult ? "180px" : "0px", 
         opacity: isShowingResult ? 1 : 0,
+        overflow: "hidden", // Evita que algo sobresalga si se encoge
         transform: isShowingResult ? "translateY(0)" : "translateY(20px)",
         transition: "all 0.5s ease"
       }}>
-
-      {isShowingResult && (
-          <div style={{ display: "flex", gap: "40px", alignItems: "stretch", height: "250px", width: "100%", maxWidth: "800px", position: "relative" }}>
+        {isShowingResult && (
+          <div style={{ display: "flex", gap: "30px", alignItems: "flex-end", height: "100%", width: "100%", maxWidth: "700px" }}>
             {stats.map((count, i) => {
                 const barColors = ["#EDA35A", "#A50E24", "#9195F6", "#574964"];
                 const icons = ["🦖", "⭐", "🌸", "🌈"];
@@ -292,50 +319,50 @@ useEffect(() => {
               return (
                   <div key={i} style={{ flex: 1, height: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "center", gap: "5px" }}>
                     
+                    {/* Contenedor de la barra y el número */}
                     <div style={{ width: "100%", flex: 1, display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "center" }}>
-
-                    {/* Número */}
-                    <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#5A0E24", opacity: count > 0 ? 1 : 0.5, marginBottom: "8px" }}>
+                      
+                      {/* Número de respuestas */}
+                      <div style={{ fontSize: "1.4rem", fontWeight: "900", color: "#4A5568", opacity: count > 0 ? 1 : 0.5, marginBottom: "5px" }}>
                         {count}
                       </div>
                       
-                    {/* Barra */}
-                    <div style={{ 
-                      width: "100%", 
-                      height: count > 0 ? `${heightPercent}%` : "5px", 
-                      backgroundColor: barColors[i], 
-                      borderRadius: "8px 8px 0 0",
-                      transition: "height 0.8s ease",
-                      opacity: count > 0 ? 1 : 0.2,
-                      boxShadow: "0 4px 10px rgba(0,0,0,0.1)"
-                    }}></div>
-
+                      {/* Barra de la gráfica */}
+                      <div style={{ 
+                        width: "100%", 
+                        height: count > 0 ? `${heightPercent}%` : "8px", 
+                        backgroundColor: barColors[i], 
+                        borderRadius: "10px 10px 0 0", // Más redondeado arriba
+                        transition: "height 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)", // Animación con efecto rebote
+                        opacity: count > 0 ? 1 : 0.3,
+                        boxShadow: count > 0 ? "0 4px 10px rgba(0,0,0,0.15)" : "none"
+                      }}></div>
                     </div>
                     
-                   {/* Icono abajo + Palomita estilo Kahoot */}
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "5px", minHeight: "30px" }}>
-                      {/* El ícono de la figura */}
-                      <span style={{ fontSize: "1.5rem", color: barColors[i] }}>{icons[i]}</span>
+                   {/* Icono abajo + Palomita de correcta */}
+                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "5px", minHeight: "25px" }}>
+                      <span style={{ fontSize: "1.2rem", filter: "drop-shadow(0 2px 2px rgba(0,0,0,0.2))" }}>{icons[i]}</span>
                       
-                      {/* La palomita verde redonda (Solo si es correcta) */}
+                      {/* La palomita verde */}
                       {isCorrectBar && (
                         <div style={{
-                          width: "24px",
-                          height: "24px",
+                          width: "20px",
+                          height: "20px",
                           borderRadius: "50%",
-                          backgroundColor: "#00E676", // Verde brillante estilo Kahoot
+                          backgroundColor: "#00E676",
                           color: "white",
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",
-                          fontSize: "1rem",
+                          fontSize: "0.9rem",
                           fontWeight: "bold",
                           boxShadow: "0 2px 4px rgba(0,0,0,0.2)"
                         }}>
                           ✓
                         </div>
                       )}
-                      </div>
+                    </div>
+
                   </div>
                 )
              })}
@@ -343,49 +370,85 @@ useEffect(() => {
         )}
       </div>
 
-     {/* OPCIONES (Se ocultan o se hacen pequeñas cuando mostramos la gráfica) */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "15px", padding: "20px", height: "300px", marginTop: "auto" }}>
-          {currentQ.options.map((opt, i) => {
-            const colors = ["#EDA35A", "#A50E24", "#9195F6", "#574964"];
-            const icons = ["🦖", "⭐", "🌸", "🌈"];
-            
-            let isCorrect = false;
+        {/* --- OPCIONES DE RESPUESTA --- */}
+      <div style={{ 
+        display: "grid", 
+        gridTemplateColumns: "1fr 1fr", 
+        gap: "20px", 
+        padding: "0 50px 40px 50px", 
+        height: isShowingResult ? "150px" : "350px", // Se encogen un poco si hay resultados
+        marginTop: "auto",
+        transition: "all 0.5s ease"
+      }}>
+        {currentQ.options.map((opt, i) => {
+          const backgrounds = [
+            "linear-gradient(180deg, #FF9F43 0%, #F0803C 100%)", // Naranja
+            "linear-gradient(180deg, #D31027 0%, #A50E24 100%)", // Rojo oscuro
+            "linear-gradient(180deg, #8A98F8 0%, #6E7DF2 100%)", // Azul claro
+            "linear-gradient(180deg, #3A4B5C 0%, #2A3B4C 100%)"  // Azul marino/grisáceo
+          ];
+          // Colores para la "base" del botón 3D
+          const shadowColors = ["#EDA35A", "#A50E24", "#9195F6", "#574964"]; 
+          const icons = ["🦖", "⭐", "🌸", "🌈"];
+          
+          let isCorrect = false;
           if (Array.isArray(currentQ.answer)) {
             isCorrect = currentQ.answer.includes(opt);
           } else {
             isCorrect = currentQ.answer === opt;
           }
 
-          // --- LÓGICA VISUAL: Si estamos mostrando resultados y NO es la correcta, se atenúa ---
-          const opacity = isShowingResult && !isCorrect ? 0.3 : 1;
+          const opacity = isShowingResult && !isCorrect ? 0.4 : 1;
 
-            return (
-              <div key={i} style={{ backgroundColor: colors[i % 4], opacity: opacity, borderRadius: "5px", display: "flex", alignItems: "center", padding: "0 30px", fontSize: "1.5rem", fontWeight: "600", color: "#FFFFFF", boxShadow: "0 4px 0 rgba(0,0,0,0.2)" }}>
-                <span style={{ marginRight: "15px", fontSize: "1.8rem" }}>{icons[i % 4]}</span>
-                {opt}
+          return (
+            <div key={i} style={{ 
+              background: backgrounds[i % 4], 
+              opacity: opacity, 
+              borderRadius: "15px", // Bordes más redondeados
+              display: "flex", 
+              alignItems: "center", 
+              padding: "0 30px", 
+              fontSize: "1.4rem", 
+              fontWeight: "700", 
+              color: "#FFFFFF", 
+              // Aquí está la magia del efecto 3D: una sombra sólida abajo y una difuminada
+              boxShadow: `0 6px 0 ${shadowColors[i % 4]}, 0 10px 20px rgba(0,0,0,0.15)`, 
+              transition: "all 0.3s ease",
+              transform: isShowingResult ? "scale(0.95)" : "scale(1)" // Efecto sutil al mostrar resultados
+            }}>
+              <span style={{ 
+                marginRight: "20px", 
+                fontSize: "2rem",
+                filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.2))" // Le da volumen al emoji
+              }}>
+                {icons[i % 4]}
+              </span>
+              <span style={{ textShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>{opt}</span>
 
-                {isShowingResult && isCorrect && (
-                  <div style={{
-                    marginLeft: "auto",
-                    width: "40px",
-                    height: "40px",
-                    backgroundColor: "#00E676", // Verde brillante
-                    borderRadius: "50%",        // Cuadradito redondeado
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    color: "white",
-                    fontSize: "1.8rem",
-                    fontWeight: "bold",
-                    boxShadow: "0 4px 0 #00B259" // El toque 3D en la parte de abajo
-                  }}>
-                    ✓
-                  </div>
-                )}
+              {/* Palomita de respuesta correcta */}
+              {isShowingResult && isCorrect && (
+                <div style={{
+                  marginLeft: "auto",
+                  width: "45px",
+                  height: "45px",
+                  backgroundColor: "#00E676",
+                  borderRadius: "50%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  color: "white",
+                  fontSize: "1.8rem",
+                  fontWeight: "bold",
+                  boxShadow: "0 4px 0 #00B259"
+                }}>
+                  ✓
                 </div>
-            );
-          })}
-        </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
 
       {/* MODAL DE CONFIRMACIÓN */}
       {showCancelModal && (
