@@ -192,7 +192,15 @@ useEffect(() => {
         </button>
 
         {/* 2. PROGRESO Y RESPUESTAS (Centro) */}
-        <div style={{ display: "flex", gap: "50px", textAlign: "center", color: "#4A5568" }}>
+        <div style={{ 
+          position: "absolute", 
+          left: "50%", 
+          transform: "translateX(-50%)", /* Esta es la magia para centrarlo perfectamente */
+          display: "flex", 
+          gap: "50px", 
+          textAlign: "center", 
+          color: "#4A5568" 
+        }}>
           <div>
             <div style={{ fontSize: "0.8rem", fontWeight: "700", letterSpacing: "1px", marginBottom: "5px" }}>PROGRESO</div>
             <div style={{ fontSize: "1.4rem", fontWeight: "900", color: "#1A202C" }}>{currentQuestionIndex + 1}/{questionsList.length}</div>
@@ -204,37 +212,77 @@ useEffect(() => {
         </div>
 
         {/* 3. TIEMPO Y PUNTOS (Derecha - Cápsula con gradiente) */}
-        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}></div>
-        <div style={{ 
-          display: "flex", 
-          alignItems: "center", 
-          background: "white", 
-          borderRadius: "40px", 
-          padding: "10px 25px", 
-          boxShadow: "0 0 15px rgba(168, 164, 255, 0.4)", // Efecto glow morado
-          border: "2px solid #E2E8F0",
-          gap: "25px" 
-        }}>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <div style={{ fontSize: "0.75rem", fontWeight: "700", color: "#4A5568", display: "flex", alignItems: "center", gap: "5px" }}>
-              ⏱ TIEMPO
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+
+        {/* Cápsula de Tiempo y Puntos (Con Borde Gradiente y Barras) */}
+          <div style={{ 
+            background: "linear-gradient(90deg, #9195F6 0%, #E294D1 100%)", // El borde gradiente de tu imagen
+            padding: "3px", // Esto simula el grosor del borde
+            borderRadius: "50px",
+            boxShadow: "0 4px 15px rgba(145, 149, 246, 0.3)" 
+          }}>
+            {/* Contenedor blanco interior */}
+            <div style={{ 
+              background: "white", 
+              borderRadius: "45px", 
+              padding: "10px 25px", 
+              display: "flex", 
+              alignItems: "center",
+              gap: "20px"
+            }}>
+              
+              {/* === SECCIÓN TIEMPO === */}
+              <div style={{ display: "flex", flexDirection: "column", width: "110px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
+                  {/* Icono con fondo circular moradito */}
+                  <div style={{ background: "#EEEDFA", borderRadius: "50%", width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem" }}>⏱</div>
+                  <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <div style={{ fontSize: "0.7rem", fontWeight: "700", color: "#64748B", letterSpacing: "1px", lineHeight: "1" }}>TIEMPO</div>
+                    <div style={{ 
+                      fontSize: "1.4rem", 
+                      fontWeight: "900", 
+                      // Lógica: Si el tiempo llega a 10s o menos, se pone rojo intenso
+                      color: (timeLeft !== null && timeLeft <= 10) ? "#D32F2F" : "#1E293B", 
+                      lineHeight: "1.1",
+                      transition: "color 0.3s ease" // Transición suave al cambiar de color
+                    }}>
+                      {formatTime(timeLeft)}
+                    </div>
+                  </div>
+                </div>
+                {/* Contenedor de la barra de progreso de tiempo */}
+                <div style={{ width: "100%", height: "6px", background: "#E2E8F0", borderRadius: "5px", overflow: "hidden" }}>
+                  <div style={{ 
+                    // Matemáticas para bajar la barrita: (tiempo restante / tiempo total) * 100
+                    width: `${timeLeft !== null ? (timeLeft / (currentQ.time || 20)) * 100 : 100}%`, 
+                    height: "100%", 
+                    background: "linear-gradient(90deg, #9195F6 0%, #E294D1 100%)",
+                    transition: "width 1s linear" // Esto hace que la barra baje de forma fluida y no a saltos
+                  }}></div>
+                </div>
+              </div>
+
+              {/* Separador vertical sutil */}
+              <div style={{ width: "2px", height: "40px", background: "#F1F5F9" }}></div>
+              
+              {/* === SECCIÓN PUNTOS === */}
+              <div style={{ display: "flex", flexDirection: "column", width: "110px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
+                  {/* Icono con fondo circular rosita */}
+                  <div style={{ background: "#FAEDF5", borderRadius: "50%", width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem" }}>🏆</div>
+                  <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <div style={{ fontSize: "0.7rem", fontWeight: "700", color: "#64748B", letterSpacing: "1px", lineHeight: "1" }}>PUNTOS</div>
+                    <div style={{ fontSize: "1.4rem", fontWeight: "900", color: "#1E293B", lineHeight: "1.1" }}>{currentQ.points || 100}</div>
+                  </div>
+                </div>
+                {/* Barra de puntos (estática llena como en tu diseño) */}
+                <div style={{ width: "100%", height: "6px", background: "#E2E8F0", borderRadius: "5px", overflow: "hidden" }}>
+                  <div style={{ width: "100%", height: "100%", background: "linear-gradient(90deg, #9195F6 0%, #E294D1 100%)" }}></div>
+                </div>
+              </div>
+
             </div>
-            <div style={{ fontSize: "1.3rem", fontWeight: "900", color: "#1A202C" }}>{formatTime(timeLeft)}</div>
-            {/* Pequeña barra decorativa morada */}
-            <div style={{ width: "100%", height: "4px", background: "#A8A4FF", borderRadius: "2px", marginTop: "4px" }}></div>
           </div>
-          
-          <div style={{ width: "2px", height: "40px", background: "#E2E8F0" }}></div> {/* Separador vertical */}
-          
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <div style={{ fontSize: "0.75rem", fontWeight: "700", color: "#4A5568", display: "flex", alignItems: "center", gap: "5px" }}>
-              🏆 PUNTOS
-            </div>
-            <div style={{ fontSize: "1.3rem", fontWeight: "900", color: "#1A202C" }}>{currentQ.points || 100}</div>
-            {/* Pequeña barra decorativa morada */}
-            <div style={{ width: "100%", height: "4px", background: "#A8A4FF", borderRadius: "2px", marginTop: "4px" }}></div>
-          </div>
-        </div>
 
         {/* BOTÓN SIGUIENTE (Solo aparece cuando sale la gráfica) */}
           {isShowingResult && (
@@ -260,10 +308,11 @@ useEffect(() => {
               onMouseUp={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 5px 0 #1D4ED8, 0 8px 15px rgba(0,0,0,0.2)"; }}
               onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 5px 0 #1D4ED8, 0 8px 15px rgba(0,0,0,0.2)"; }}
             >
-              Siguiente ➡
+              Siguiente
             </button>
           )}
 
+      </div>
       </div>
         
         {/* --- PREGUNTA CENTRAL --- */}
@@ -382,10 +431,10 @@ useEffect(() => {
       }}>
         {currentQ.options.map((opt, i) => {
           const backgrounds = [
-            "linear-gradient(180deg, #FF9F43 0%, #F0803C 100%)", // Naranja
+            "linear-gradient(180deg, #FF9F43 0%, #EDA35A 100%)", // Naranja
             "linear-gradient(180deg, #D31027 0%, #A50E24 100%)", // Rojo oscuro
-            "linear-gradient(180deg, #8A98F8 0%, #6E7DF2 100%)", // Azul claro
-            "linear-gradient(180deg, #3A4B5C 0%, #2A3B4C 100%)"  // Azul marino/grisáceo
+            "linear-gradient(180deg, #8A98F8 0%, #9195F6 100%)", // Azul claro
+            "linear-gradient(180deg, #3A4B5C 0%, #574964 100%)"  // Azul marino/grisáceo
           ];
           // Colores para la "base" del botón 3D
           const shadowColors = ["#EDA35A", "#A50E24", "#9195F6", "#574964"]; 
