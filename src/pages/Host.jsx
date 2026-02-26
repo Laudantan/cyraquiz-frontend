@@ -88,9 +88,9 @@ const handleUpload = async () => {
 
     try {
       const formData = new FormData();
-      formData.append("pdfFile", file);
       formData.append("casillaMarcada", isExtractMode);
-
+      formData.append("pdfFile", file);
+      
       const response = await fetch("https://cyraquiz.onrender.com/upload", {
         method: "POST",
         body: formData,
