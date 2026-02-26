@@ -104,34 +104,52 @@ export default function Podium() {
     frame();
   };
 
+  // --- VISTA: PODIO NEÓN ---
   return (
     <div style={{ 
-      minHeight: "100vh", // CAMBIO 1: Permite que la página crezca si hay mucho contenido
+      minHeight: "100vh", 
       width: "100%",
-      backgroundColor: "#5A0E24", 
+      // Fondo oscuro tipo escenario
+      background: "radial-gradient(circle at top, #7A0A1A 0%, #3A0512 60%, #1A0005 100%)", 
       color: "white", 
-      fontFamily: "'Poppins', sans-serif", 
+      fontFamily: "'Poppins', 'Monserrat'", 
       display: "flex", 
       flexDirection: "column", 
       alignItems: "center", 
-      overflowY: "auto",  // CAMBIO 2: Activa el scroll vertical
-      paddingBottom: "50px" // Un respiro al final para que no se corte
+      overflowY: "auto",  
+      paddingBottom: "50px",
+      position: "relative"
     }}>
       
-      {/* TÍTULO */}
-      <h1 style={{ 
-        fontSize: "3rem", 
-        marginTop: "20px",      // Espacio arriba
-        marginBottom: "5px",  // CAMBIO 3: Ajustado (antes 300px) para que no empuje tanto el podio
-        textTransform: "uppercase", 
-        letterSpacing: "5px", 
-        textShadow: "0 5px 15px rgba(0,0,0,0.5)",
-        zIndex: 20, 
-        position: "relative"
-      }}>
-        🏆 Podio Final 🏆
-      </h1>
+      {/* LUCES DE ESCENARIO (Efecto visual) */}
+      <div style={{ position: "absolute", top: 0, left: "20%", width: "150px", height: "400px", background: "radial-gradient(ellipse at top, rgba(255, 215, 0, 0.15) 0%, transparent 70%)", transform: "rotate(-25deg)", pointerEvents: "none" }}></div>
+      <div style={{ position: "absolute", top: 0, right: "20%", width: "150px", height: "400px", background: "radial-gradient(ellipse at top, rgba(255, 215, 0, 0.15) 0%, transparent 70%)", transform: "rotate(25deg)", pointerEvents: "none" }}></div>
 
+      {/* TÍTULO ESTILO NEÓN */}
+      <div style={{
+        marginTop: "30px",
+        marginBottom: "30px",
+        padding: "10px 40px",
+        border: "2px solid #FFD700",
+        borderRadius: "30px",
+        boxShadow: "0 0 15px #FFD700, inset 0 0 10px #FFD700",
+        backgroundColor: "rgba(0,0,0,0.6)",
+        zIndex: 20
+      }}>
+        <h1 style={{ 
+          fontSize: "2.2rem", 
+          margin: 0,
+          textTransform: "uppercase", 
+          fontStyle: "'Poppins'",
+          letterSpacing: "2px", 
+          textShadow: "0 0 10px #FFD700",
+          color: "#FFF5E1"
+        }}>
+          PODIO
+        </h1>
+      </div>
+
+      {/* ALERTA DE EMPATE (Mantenemos tu lógica igual) */}
       {step === 1.5 && isTie && (
         <div style={{
           backgroundColor: "#FFD700",
@@ -154,36 +172,49 @@ export default function Podium() {
       )}
 
       {/* ZONA DEL PODIO */}
-      <div style={{ 
+     <div style={{ 
         display: "flex", 
         alignItems: "flex-end", 
         justifyContent: "center", 
-        gap: "20px", 
-        // Eliminamos height fijo para que no choque
+        gap: "10px", // Más juntos como en la imagen
         width: "100%", 
         maxWidth: "900px",
-        marginBottom: "40px" // Separación entre el podio y la lista de abajo
+        marginBottom: "60px",
+        zIndex: 10
       }}>
 
         {/* 🥈 SEGUNDO LUGAR */}
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "30%", opacity: step >= 2 ? 1 : 0, transition: "all 0.5s", transform: step >= 2 ? "translateY(0)" : "translateY(50px)" }}>
           {second && (
             <>
-              <div style={{ marginBottom: "15px", textAlign: "center" }}>
-                <img src={second.avatar} alt="avatar" style={{ width: "80px", height: "80px", borderRadius: "50%", border: "4px solid #C0C0C0", backgroundColor: "white" }} />
-                <div style={{ fontWeight: "bold", fontSize: "1.2rem", marginTop: "5px" }}>{second.name}</div>
+              {/* Info del Jugador */}
+              <div style={{ marginBottom: "15px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <div style={{ position: "relative" }}>
+                  <img src={second.avatar} alt="avatar" style={{ width: "85px", height: "85px", borderRadius: "50%", border: "4px solid #C0C0C0", backgroundColor: "white", boxShadow: "0 0 15px rgba(192, 192, 192, 0.8)" }} />
+                  {/* Medalla de plata */}
+                  <div style={{ position: "absolute", bottom: "-5px", right: "-10px", width: "30px", height: "30px", background: "radial-gradient(circle, #E0E0E0 0%, #9E9E9E 100%)", borderRadius: "50%", border: "2px solid white", boxShadow: "0 2px 5px rgba(0,0,0,0.5)", display: "flex", justifyContent: "center", alignItems: "center", fontSize: "0.8rem" }}>🥈</div>
+                </div>
+                <div style={{ fontWeight: "900", fontSize: "1.3rem", marginTop: "10px", textTransform: "uppercase", textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>{second.name}</div>
+                <div style={{ display: "flex", gap: "10px", fontSize: "0.9rem", marginTop: "5px", color: "#E2E8F0" }}>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}><strong style={{ color: "white" }}>{second.score}</strong> <span style={{fontSize: "0.7rem"}}>PTS</span></div>
+                  <span style={{ alignSelf: "center" }}>|</span>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}><strong style={{ color: "white" }}>{(second.timeAccumulated / 1000).toFixed(2)}</strong> <span style={{fontSize: "0.7rem"}}>TIEMPO</span></div>
+                </div>
               </div>
+
+              {/* Tarima 2do */}
               <div style={{ 
-                width: "100%", height: "180px", backgroundColor: "#C0C0C0", 
-                borderTopLeftRadius: "15px", borderTopRightRadius: "15px",
+                width: "100%", height: "140px", 
+                // Simulando un cilindro 3D con border-radius
+                background: "linear-gradient(180deg, #E2E8F0 0%, #94A3B8 20%, #64748B 100%)", 
+                borderRadius: "50% 50% 10px 10px / 20px 20px 10px 10px",
                 display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-                color: "#5A0E24", boxShadow: "0 10px 30px rgba(0,0,0,0.3)"
+                boxShadow: "0 10px 30px rgba(0,0,0,0.8), inset 0 5px 10px rgba(255,255,255,0.5)",
+                position: "relative"
               }}>
-                <span style={{ fontSize: "3.5rem", fontWeight: "900" }}>2</span>
-                <span style={{ fontSize: "1.5rem", fontWeight: "bold" }}>{second.score} pts</span>
-                {second && ((first && second.score === first.score) || (third && second.score === third.score)) && (
-                  <span style={{ fontSize: "1rem", opacity: 0.8 }}>⏱️ {(second.timeAccumulated / 1000).toFixed(2)}s</span>
-                )}
+                {/* Tapa del cilindro */}
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40px", background: "#F1F5F9", borderRadius: "50%", boxShadow: "inset 0 -2px 5px rgba(0,0,0,0.2)" }}></div>
+                <span style={{ fontSize: "1.5rem", fontWeight: "900", color: "#334155", zIndex: 2, marginTop: "20px", textShadow: "0 1px 1px white" }}>2DO LUGAR</span>
               </div>
             </>
           )}
@@ -193,22 +224,34 @@ export default function Podium() {
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "35%", zIndex: 10, opacity: step >= 3 ? 1 : 0, transition: "all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)", transform: step >= 3 ? "scale(1)" : "scale(0.5)" }}>
           {first && (
             <>
-              <div style={{ marginBottom: "15px", textAlign: "center", position: "relative" }}>
-                <span style={{ fontSize: "4rem", display: "block", marginBottom: "-20px", filter: "drop-shadow(0 0 10px gold)", position: "relative", zIndex: 11 }}>👑</span>
-                <img src={first.avatar} alt="avatar" style={{ width: "120px", height: "120px", borderRadius: "50%", border: "6px solid #FFD700", backgroundColor: "white", position: "relative", zIndex: 10 }} />
-                <div style={{ fontWeight: "900", fontSize: "1.5rem", marginTop: "10px" }}>{first.name}</div>
+              {/* Info del Jugador */}
+              <div style={{ marginBottom: "15px", textAlign: "center", position: "relative", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <span style={{ fontSize: "4rem", display: "block", marginBottom: "-25px", filter: "drop-shadow(0 0 10px #FFD700)", position: "relative", zIndex: 11 }}>👑</span>
+                <div style={{ position: "relative" }}>
+                  <img src={first.avatar} alt="avatar" style={{ width: "110px", height: "110px", borderRadius: "50%", border: "5px solid #FFD700", backgroundColor: "white", position: "relative", zIndex: 10, boxShadow: "0 0 25px rgba(255, 215, 0, 0.8)" }} />
+                  {/* Medalla de oro */}
+                  <div style={{ position: "absolute", bottom: "-5px", right: "-10px", width: "35px", height: "35px", background: "radial-gradient(circle, #FFD700 0%, #B8860B 100%)", borderRadius: "50%", border: "2px solid white", boxShadow: "0 2px 5px rgba(0,0,0,0.5)", zIndex: 12, display: "flex", justifyContent: "center", alignItems: "center", fontSize: "1rem" }}>🥇</div>
+                </div>
+                <div style={{ fontWeight: "900", fontSize: "1.6rem", marginTop: "10px", textTransform: "uppercase", textShadow: "0 0 10px #FFD700" }}>{first.name}</div>
+                <div style={{ display: "flex", gap: "10px", fontSize: "1rem", marginTop: "5px", color: "#FFF5E1" }}>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}><strong style={{ color: "#FFD700" }}>{first.score}</strong> <span style={{fontSize: "0.8rem"}}>PTS</span></div>
+                  <span style={{ alignSelf: "center" }}>|</span>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}><strong style={{ color: "#FFD700" }}>{(first.timeAccumulated / 1000).toFixed(2)}</strong> <span style={{fontSize: "0.8rem"}}>TIEMPO</span></div>
+                </div>
               </div>
+
+              {/* Tarima 1ro */}
               <div style={{ 
-                width: "100%", height: "260px", backgroundColor: "#FFD700", 
-                borderTopLeftRadius: "15px", borderTopRightRadius: "15px",
+                width: "100%", height: "190px", 
+                background: "linear-gradient(180deg, #FFD700 0%, #D4AF37 20%, #B8860B 100%)", 
+                borderRadius: "50% 50% 10px 10px / 20px 20px 10px 10px",
                 display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-                color: "#5A0E24", boxShadow: "0 0 50px rgba(255, 215, 0, 0.4)"
+                boxShadow: "0 10px 40px rgba(255, 215, 0, 0.3), inset 0 5px 10px rgba(255,255,255,0.6)",
+                position: "relative"
               }}>
-                <span style={{ fontSize: "5rem", fontWeight: "900" }}>1</span>
-                <span style={{ fontSize: "2rem", fontWeight: "bold" }}>{first.score} pts</span>
-                {first && second && first.score === second.score && (
-                  <span style={{ fontSize: "1.2rem", opacity: 0.9 }}>⏱️ {(first.timeAccumulated / 1000).toFixed(2)}s</span>
-                )}
+                 {/* Tapa del cilindro */}
+                 <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "45px", background: "#FFF5E1", borderRadius: "50%", boxShadow: "inset 0 -3px 8px rgba(184, 134, 11, 0.5)" }}></div>
+                <span style={{ fontSize: "1.8rem", fontWeight: "900", color: "#5A3A00", zIndex: 2, marginTop: "20px", textShadow: "0 1px 1px rgba(255,255,255,0.8)" }}>1ER LUGAR</span>
               </div>
             </>
           )}
@@ -218,23 +261,33 @@ export default function Podium() {
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "30%", opacity: (step >= 1 && !isTripleTie) || step >= 3 ? 1 : 0, transition: "all 0.5s", transform: (step >= 1 && !isTripleTie) || step >= 3 ? "translateY(0)" : "translateY(50px)" }}>
           {third && (
             <>
-              <div style={{ marginBottom: "15px", textAlign: "center" }}>
-                <img src={third.avatar} alt="avatar" style={{ width: "80px", height: "80px", borderRadius: "50%", border: "4px solid #CD7F32", backgroundColor: "white" }} />
-                <div style={{ fontWeight: "bold", fontSize: "1.2rem", marginTop: "5px" }}>{third.name}</div>
+               {/* Info del Jugador */}
+               <div style={{ marginBottom: "15px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <div style={{ position: "relative" }}>
+                  <img src={third.avatar} alt="avatar" style={{ width: "85px", height: "85px", borderRadius: "50%", border: "4px solid #CD7F32", backgroundColor: "white", boxShadow: "0 0 15px rgba(205, 127, 50, 0.8)" }} />
+                  {/* Medalla de bronce */}
+                  <div style={{ position: "absolute", bottom: "-5px", right: "-10px", width: "30px", height: "30px", background: "radial-gradient(circle, #CD7F32 0%, #8B4513 100%)", borderRadius: "50%", border: "2px solid white", boxShadow: "0 2px 5px rgba(0,0,0,0.5)", display: "flex", justifyContent: "center", alignItems: "center", fontSize: "0.8rem" }}>🥉</div>
+                </div>
+                <div style={{ fontWeight: "900", fontSize: "1.3rem", marginTop: "10px", textTransform: "uppercase", textShadow: "0 2px 4px rgba(0,0,0,0.8)" }}>{third.name}</div>
+                <div style={{ display: "flex", gap: "10px", fontSize: "0.9rem", marginTop: "5px", color: "#E2E8F0" }}>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}><strong style={{ color: "white" }}>{third.score}</strong> <span style={{fontSize: "0.7rem"}}>PTS</span></div>
+                  <span style={{ alignSelf: "center" }}>|</span>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}><strong style={{ color: "white" }}>{(third.timeAccumulated / 1000).toFixed(2)}</strong> <span style={{fontSize: "0.7rem"}}>TIEMPO</span></div>
+                </div>
               </div>
+
+              {/* Tarima 3ro */}
               <div style={{ 
-                width: "100%", height: "120px", backgroundColor: "#CD7F32", 
-                borderTopLeftRadius: "15px", borderTopRightRadius: "15px",
+                width: "100%", height: "110px", 
+                background: "linear-gradient(180deg, #D28F5A 0%, #B86B35 20%, #8B4513 100%)", 
+                borderRadius: "50% 50% 10px 10px / 20px 20px 10px 10px",
                 display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-                color: "#5A0E24", boxShadow: "0 10px 30px rgba(0,0,0,0.3)"
+                boxShadow: "0 10px 30px rgba(0,0,0,0.8), inset 0 5px 10px rgba(255,255,255,0.3)",
+                position: "relative"
               }}>
-                <span style={{ fontSize: "3rem", fontWeight: "900" }}>3</span>
-                <span style={{ fontSize: "1.5rem", fontWeight: "bold" }}>{third.score} pts</span>
-                
-                {/* --- RELOJ INTELIGENTE 3ER LUGAR --- */}
-                {third && second && third.score === second.score && (
-                  <span style={{ fontSize: "1rem", opacity: 0.8 }}>⏱️ {(third.timeAccumulated / 1000).toFixed(2)}s</span>
-                )}
+                {/* Tapa del cilindro */}
+                <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40px", background: "#E8A776", borderRadius: "50%", boxShadow: "inset 0 -2px 5px rgba(139, 69, 19, 0.4)" }}></div>
+                <span style={{ fontSize: "1.5rem", fontWeight: "900", color: "#3E1F08", zIndex: 2, marginTop: "20px", textShadow: "0 1px 1px rgba(255,255,255,0.4)" }}>3ER LUGAR</span>
               </div>
             </>
           )}
@@ -242,46 +295,93 @@ export default function Podium() {
       </div>
 
       {/* LISTA DE RESULTADOS (Leaderboard) */}
+      <div style={{ width: "100%", maxWidth: "1200px", height: "40px", background: "#7A0A1A", borderRadius: "50%", marginTop: "-70px", boxShadow: "0 5px 15px rgba(0,0,0,0.8), inset 0 5px 5px #A50E24", zIndex: 5 }}></div>
+      <div style={{ width: "110%", maxWidth: "1300px", height: "30px", background: "#3A0512", borderRadius: "50%", marginTop: "-15px", boxShadow: "0 10px 20px rgba(0,0,0,0.9)", zIndex: 4 }}></div>
+        
+        {/* --- MURO DE LA FAMA (Tabla General) --- */}
       <div style={{ 
-        width: "90%", maxWidth: "800px", backgroundColor: "rgba(0,0,0,0.2)",
-        borderRadius: "20px", padding: "20px",
-        marginTop: "10px", animation: "slideUp 1s ease"
-        // Quitamos overflowY auto de aquí para que use el scroll de la página
+        width: "90%", maxWidth: "700px", 
+        marginTop: "60px", 
+        animation: "slideUp 1.5s ease"
       }}>
-        <h3 style={{ borderBottom: "1px solid rgba(255,255,255,0.2)", paddingBottom: "10px", marginBottom: "15px" }}>
-          📜 Tabla General
+        <h3 style={{ 
+          textAlign: "center", 
+          fontStyle: "italic", 
+          textTransform: "uppercase", 
+          letterSpacing: "2px", 
+          color: "#FFF5E1", 
+          textShadow: "0 0 10px rgba(255,255,255,0.5)",
+          marginBottom: "10px"
+        }}>
+          MURO DE LA FAMA
         </h3>
         
+        {/* Encabezados de tabla */}
+        <div style={{ display: "flex", justifyContent: "space-between", padding: "0 20px", marginBottom: "10px", color: "#FFD700", fontWeight: "bold", fontSize: "0.9rem" }}>
+          <div style={{ width: "60px", textAlign: "center" }}>Rango</div>
+          <div style={{ flex: 1, paddingLeft: "20px" }}>Nombre del Jugador</div>
+          <div style={{ width: "120px", textAlign: "right" }}>Puntuación</div>
+          <div style={{ width: "100px", textAlign: "right" }}>Tiempo</div>
+        </div>
+        
+        {/* Línea divisoria */}
+        <div style={{ width: "100%", height: "2px", background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)", marginBottom: "15px" }}></div>
+
+        {/* Lista de jugadores */}
         {sortedPlayers.slice(3).map((p, index) => (
           <div key={index} style={{ 
             display: "flex", alignItems: "center", justifyContent: "space-between",
-            backgroundColor: "rgba(255,255,255,0.1)", marginBottom: "10px",
-            padding: "10px 20px", borderRadius: "10px"
+            backgroundColor: index % 2 === 0 ? "rgba(255,255,255,0.05)" : "transparent", // Efecto cebra
+            padding: "12px 20px", borderRadius: "8px", transition: "background 0.3s"
           }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
-              <span style={{ fontWeight: "bold", fontSize: "1.2rem", width: "30px", textAlign: "right" }}>#{index + 4}</span>
-              <img src={p.avatar} alt="av" style={{ width: "40px", height: "40px", borderRadius: "50%", background: "white" }} />
+            <div style={{ width: "60px", textAlign: "center", fontWeight: "bold", fontSize: "1.1rem", color: "#E2E8F0" }}>
+              {index + 4}
+            </div>
+            <div style={{ flex: 1, paddingLeft: "20px", display: "flex", alignItems: "center", gap: "10px" }}>
+              <img src={p.avatar} alt="av" style={{ width: "30px", height: "30px", borderRadius: "50%", background: "white" }} />
               <span style={{ fontSize: "1.1rem" }}>{p.name}</span>
             </div>
-            <span style={{ fontWeight: "bold", color: "#D8E983", fontSize: "1.2rem" }}>{p.score} pts</span>
+            <div style={{ width: "120px", textAlign: "right", color: "#FFD700" }}>{p.score} pts</div>
+            <div style={{ width: "100px", textAlign: "right", color: "#FFD700" }}>{(p.timeAccumulated / 1000).toFixed(2)}s</div>
           </div>
         ))}
 
         {sortedPlayers.length <= 3 && (
           <div style={{ textAlign: "center", opacity: 0.5, fontStyle: "italic", marginTop: "20px" }}>
-            No hay más jugadores
+            No hay más jugadores para mostrar
           </div>
         )}
       </div>
 
+      {/* BOTÓN SALIR / VOLVER AL LOBBY */}
       {step === 3 && (
-        <button onClick={() => navigate("/host")} style={{ position: "absolute", top: 20, right: 20, padding: "10px 20px", borderRadius: "20px", border: "none", cursor: "pointer", background: "white", color: "#5A0E24", fontWeight: "bold", zIndex: 100 }}>
-          Salir ✖
+        <button 
+          onClick={() => navigate("/host")} 
+          style={{ 
+            marginTop: "40px",
+            padding: "12px 30px", 
+            borderRadius: "10px", 
+            border: "2px solid #FFD700", 
+            cursor: "pointer", 
+            background: "rgba(0,0,0,0.5)", 
+            color: "#FFD700", 
+            fontWeight: "bold", 
+            textTransform: "uppercase",
+            letterSpacing: "1px",
+            transition: "all 0.3s",
+            boxShadow: "0 0 10px rgba(255, 215, 0, 0.5)",
+            zIndex: 100 
+          }}
+          onMouseOver={(e) => { e.currentTarget.style.background = "#FFD700"; e.currentTarget.style.color = "#3A0512"; }}
+          onMouseOut={(e) => { e.currentTarget.style.background = "rgba(0,0,0,0.5)"; e.currentTarget.style.color = "#FFD700"; }}
+        >
+          VOLVER AL LOBBY
         </button>
       )}
 
-      <style>{`@keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-      @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 80% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+      <style>{`
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes popIn { 0% { transform: scale(0.5); opacity: 0; } 80% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
       `}</style>
     </div>
   );

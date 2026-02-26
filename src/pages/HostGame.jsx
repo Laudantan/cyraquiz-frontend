@@ -431,13 +431,19 @@ useEffect(() => {
       }}>
         {currentQ.options.map((opt, i) => {
           const backgrounds = [
-            "linear-gradient(180deg, #EDA35A 0%, #FF9F43 100%)", // Naranja
-            "linear-gradient(180deg, #A50E24 0%, #D31027 100%)", // Rojo oscuro
-            "linear-gradient(180deg, #9195F6 0%, #8A98F8 100%)", // Azul claro
-            "linear-gradient(180deg, #574964 0%, #3A4B5C 100%)"  // Azul marino/grisáceo
+            "#EDA35A", // Tu Naranja exacto
+            "#A50E24", // Tu Rojo oscuro exacto
+            "#9195F6", // Tu Morado claro exacto
+            "#574964"  // Tu Morado oscuro exacto
           ];
           // Colores para la "base" del botón 3D
-          const shadowColors = ["#FF9F43", "#D31027", "#8A98F8", "#3A4B5C"]; 
+         const shadowColors = [
+            "#C68848", // Sombra naranja oscuro
+            "#7D0A1B", // Sombra rojo más oscuro
+            "#7579CA", // Sombra morado claro oscuro
+            "#3E3447"  // Sombra morado oscuro profundo
+          ];
+          
           const icons = ["🦖", "⭐", "🌸", "🌈"];
           
           let isCorrect = false;
