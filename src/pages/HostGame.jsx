@@ -425,19 +425,19 @@ useEffect(() => {
         gridTemplateColumns: "1fr 1fr", 
         gap: "20px", 
         padding: "0 50px 40px 50px", 
-        height: isShowingResult ? "150px" : "350px", // Se encogen un poco si hay resultados
+        height: isShowingResult ? "200px" : "350px", // Se encogen un poco si hay resultados
         marginTop: "auto",
         transition: "all 0.5s ease"
       }}>
         {currentQ.options.map((opt, i) => {
           const backgrounds = [
-            "linear-gradient(180deg, #FF9F43 0%, #EDA35A 100%)", // Naranja
-            "linear-gradient(180deg, #D31027 0%, #A50E24 100%)", // Rojo oscuro
-            "linear-gradient(180deg, #8A98F8 0%, #9195F6 100%)", // Azul claro
-            "linear-gradient(180deg, #3A4B5C 0%, #574964 100%)"  // Azul marino/grisáceo
+            "linear-gradient(180deg, #EDA35A 0%, #FF9F43 100%)", // Naranja
+            "linear-gradient(180deg, #A50E24 0%, #D31027 100%)", // Rojo oscuro
+            "linear-gradient(180deg, #9195F6 0%, #8A98F8 100%)", // Azul claro
+            "linear-gradient(180deg, #574964 0%, #3A4B5C 100%)"  // Azul marino/grisáceo
           ];
           // Colores para la "base" del botón 3D
-          const shadowColors = ["#EDA35A", "#A50E24", "#9195F6", "#574964"]; 
+          const shadowColors = ["#FF9F43", "#D31027", "#8A98F8", "#3A4B5C"]; 
           const icons = ["🦖", "⭐", "🌸", "🌈"];
           
           let isCorrect = false;
@@ -463,7 +463,7 @@ useEffect(() => {
               // Aquí está la magia del efecto 3D: una sombra sólida abajo y una difuminada
               boxShadow: `0 6px 0 ${shadowColors[i % 4]}, 0 10px 20px rgba(0,0,0,0.15)`, 
               transition: "all 0.3s ease",
-              transform: isShowingResult ? "scale(0.95)" : "scale(1)" // Efecto sutil al mostrar resultados
+              transform: isShowingResult ? "scale(0.98)" : "scale(1)" // Efecto sutil al mostrar resultados
             }}>
               <span style={{ 
                 marginRight: "20px", 
@@ -478,17 +478,17 @@ useEffect(() => {
               {isShowingResult && isCorrect && (
                 <div style={{
                   marginLeft: "auto",
-                  width: "45px",
-                  height: "45px",
+                  width: "30px",
+                  height: "30px",
                   backgroundColor: "#00E676",
                   borderRadius: "50%",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   color: "white",
-                  fontSize: "1.8rem",
+                  fontSize: "1.2rem",
                   fontWeight: "bold",
-                  boxShadow: "0 4px 0 #00B259"
+                  boxShadow: "0 3px 0 #00B259"
                 }}>
                   ✓
                 </div>
