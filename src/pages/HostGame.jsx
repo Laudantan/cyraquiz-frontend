@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { socket } from "../socket";
+import useSound from "use-sound";
 
 export default function HostGame() {
   const { roomCode } = useParams();
@@ -20,6 +21,7 @@ export default function HostGame() {
   const [startCountdown, setStartCountdown] = useState(3);
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [stats, setStats] = useState([0, 0, 0, 0]);
+  const [playCountdown, { stop: stopCountdown }] = useSound("/countdown.wav", { volume: 0.6 });
 
   // Variable derivada para la pregunta actual
   const currentQ = questionsList[currentQuestionIndex];
@@ -38,11 +40,20 @@ export default function HostGame() {
 
   // CUENTA REGRESIVA INICIAL (3..2..1)
   useEffect(() => {
+
+    if (startCountdown === 3) {
+      playCountdown();
+    }
+
     if (startCountdown > 0) {
       const timer = setTimeout(() => setStartCountdown(prev => prev - 1), 1000);
       return () => clearTimeout(timer);
     }
-  }, [startCountdown]);
+
+    else if (startCountdown === 0) {
+      stopCountdown();
+    }
+  }, [startCountdown, playCountdown, stopCountdown]);
 
   useEffect(() => {
     // Si ya se están mostrando los resultados o no hay jugadores, no hacemos nada
@@ -65,7 +76,7 @@ useEffect(() => {
   useEffect(() => {
     if (startCountdown > 0 || !currentQ) return;
 
-    console.log(`📡 Enviando Pregunta ${currentQuestionIndex + 1}:`, currentQ.question);
+    console.log(`Enviando Pregunta ${currentQuestionIndex + 1}:`, currentQ.question);
 
     setIsShowingResult(false);
     setAnswersCount(0);
