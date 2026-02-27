@@ -45,12 +45,12 @@ export default function HostGame() {
       playCountdown();
     }
 
-    if (startCountdown > 0) {
+    if (startCountdown => 0) {
       const timer = setTimeout(() => setStartCountdown(prev => prev - 1), 1000);
       return () => clearTimeout(timer);
     }
 
-    else if (startCountdown === 0) {
+    else if (startCountdown < 0) {
       stopCountdown();
     }
   }, [startCountdown, playCountdown, stopCountdown]);
@@ -74,7 +74,7 @@ useEffect(() => {
 
   // LOGICA DE PREGUNTA NUEVA
   useEffect(() => {
-    if (startCountdown > 0 || !currentQ) return;
+    if (startCountdown >= 0 || !currentQ) return;
 
     console.log(`Enviando Pregunta ${currentQuestionIndex + 1}:`, currentQ.question);
 
@@ -104,7 +104,7 @@ useEffect(() => {
       socket.off("player_answered", onPlayerAnswered);
       socket.off("update_stats", onUpdateStats);
     };
-  }, [currentQuestionIndex, startCountdown, roomCode]); 
+  }, [currentQuestionIndex, startCountdown, roomCode, currentQ]); 
 
   // TEMPORIZADOR
   useEffect(() => {
@@ -132,12 +132,16 @@ useEffect(() => {
   if (!currentQ) return <div style={{color:"white", textAlign:"center", marginTop: 50}}>Cargando pregunta...</div>;
 
   // --- VISTA: CUENTA REGRESIVA 3..2..1 ---
-  if (startCountdown > 0) {
+  if (startCountdown >= 0) {
     return (
       <div style={{ minHeight: "100vh", backgroundColor: "#5A0E24", color: "white", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", fontFamily: "'Poppins', sans-serif" }}>
         <h2 style={{ fontSize: "2rem", marginBottom: "20px", textTransform: "uppercase", letterSpacing: "5px" }}>¿Listos?</h2>
-        <div key={startCountdown} style={{ fontSize: "10rem", fontWeight: "900", animation: "zoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)" }}>
-          {startCountdown}
+        <div key={startCountdown} style={{ 
+          fontSize: startCountdown === 0 ? "7rem" : "10rem", // Hacemos la letra un poco más chica para que quepa la palabra
+          fontWeight: "900", 
+          animation: "zoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)" 
+        }}>
+          {startCountdown === 0 ? "¡VAMOS!" : startCountdown}
         </div>
         <style>{`@keyframes zoomIn { 0% { transform: scale(0); opacity: 0; } 60% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); } }`}</style>
       </div>
