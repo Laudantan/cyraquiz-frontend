@@ -45,7 +45,7 @@ export default function Podium() {
       let tieText = "";
 
       const isTripleTieCheck = p1 && p2 && p3 && p1.score === p2.score && p2.score === p3.score && p1.score > 0;
-      const isDoubleTieCheck = (p1 && p2 && p1.score === p2.score && p1.score > 0) || (p2 && p3 && p2.score === p3.score && p2.score > 0);
+      const isDoubleTieCheck = p1 && p2 && p1.score === p2.score && p1.score > 0;
 
       if (isTripleTieCheck) {
         tieDetected = true;
@@ -145,7 +145,7 @@ export default function Podium() {
           textShadow: "0 0 10px #FFD700",
           color: "#FFF5E1"
         }}>
-          PODIO
+          ¡GANADORES!
         </h1>
       </div>
 
@@ -313,7 +313,7 @@ export default function Podium() {
           textShadow: "0 0 10px rgba(255,255,255,0.5)",
           marginBottom: "10px"
         }}>
-          MURO DE LA FAMA
+          RESULTADOS GENERALES
         </h3>
         
         {/* Encabezados de tabla */}
@@ -321,7 +321,6 @@ export default function Podium() {
           <div style={{ width: "60px", textAlign: "center" }}>Rango</div>
           <div style={{ flex: 1, paddingLeft: "20px" }}>Nombre del Jugador</div>
           <div style={{ width: "120px", textAlign: "right" }}>Puntuación</div>
-          <div style={{ width: "100px", textAlign: "right" }}>Tiempo</div>
         </div>
         
         {/* Línea divisoria */}

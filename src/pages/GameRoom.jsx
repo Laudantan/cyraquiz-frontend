@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { socket } from "../socket";
+import useSound from "use-sound";
 
 export default function GameRoom() {
   const navigate = useNavigate();
@@ -16,6 +17,19 @@ export default function GameRoom() {
 
   const [roomCode, setRoomCode] = useState("Cargando...");
   const [players, setPlayers] = useState([]);
+
+  const [playLobby, { stop: stopLobby }] = useSound("/lobby.mp3", {
+    volume: 0.4, // Volumen al 40% para que no tape las voces si estás en clase
+    loop: true   // Se repite infinitamente hasta que lo detengamos
+  });
+
+  useEffect(() => {
+    playLobby(); 
+
+    return () => {
+      stopLobby(); 
+    };
+  }, [playLobby, stopLobby]);
 
   useEffect(() => {
     // 2. GENERAR PIN SIEMPRE
@@ -61,7 +75,8 @@ export default function GameRoom() {
   }, []); // Array vacío = Se ejecuta solo 1 vez al entrar
 
   const handleStartGame = () => {
-    console.log("🚀 Iniciando juego en sala:", roomCode);
+    console.log("Iniciando juego en sala:", roomCode);
+    stopLobby();
     socket.emit("start_game", roomCode);
     navigate(`/host-game/${roomCode}`, { state: { quizData, players } });
   };

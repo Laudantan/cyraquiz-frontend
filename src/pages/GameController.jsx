@@ -66,7 +66,7 @@ export default function GameController() {
       const p2 = sortedList[1];
       const p3 = sortedList[2];
       const isTripleTie = p1 && p2 && p3 && p1.score === p2.score && p2.score === p3.score && p1.score > 0;
-      const isDoubleTie = (p1 && p2 && p1.score === p2.score && p1.score > 0) || (p2 && p3 && p2.score === p3.score && p2.score > 0);
+      const isDoubleTie = p1 && p2 && p1.score === p2.score && p1.score > 0;
       
       setGameState("game_over");
 
