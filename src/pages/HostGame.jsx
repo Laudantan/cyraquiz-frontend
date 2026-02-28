@@ -50,12 +50,12 @@ export default function HostGame() {
       playCountdown();
     }
 
-    if (startCountdown => 0) {
+    if (startCountdown >= 0) {
       const timer = setTimeout(() => setStartCountdown(prev => prev - 1), 1000);
       return () => clearTimeout(timer);
     }
 
-    else if (startCountdown < 0) {
+    else if (startCountdown === -1) {
       stopCountdown();
     }
   }, [startCountdown, playCountdown, stopCountdown]);
@@ -94,7 +94,7 @@ useEffect(() => {
 
   // LOGICA DE PREGUNTA NUEVA
   useEffect(() => {
-    if (startCountdown >= 0 || !currentQ) return;
+    if (startCountdown !== -1 || !currentQ) return;
 
     console.log(`Enviando Pregunta ${currentQuestionIndex + 1}:`, currentQ.question);
 
