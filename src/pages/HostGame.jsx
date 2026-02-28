@@ -23,6 +23,11 @@ export default function HostGame() {
   const [stats, setStats] = useState([0, 0, 0, 0]);
   const [playCountdown, { stop: stopCountdown }] = useSound("/countdown.wav", { volume: 0.6 });
 
+  const [playQuestionMusic, { stop: stopQuestionMusic }] = useSound("/question.mp3", { 
+    volume: 0.4, 
+    loop: true // Lo ponemos en bucle por si la pregunta dura mucho
+  });
+
   // Variable derivada para la pregunta actual
   const currentQ = questionsList[currentQuestionIndex];
 
@@ -54,6 +59,21 @@ export default function HostGame() {
       stopCountdown();
     }
   }, [startCountdown, playCountdown, stopCountdown]);
+
+  useEffect(() => {
+      // Si ya pasamos el "¡VAMOS!" (< 0) y TODAVÍA NO se muestran los resultados...
+      if (startCountdown < 0 && !isShowingResult) {
+        playQuestionMusic();
+      } else {
+        // En el instante en que isShowingResult se vuelva true (porque se acabó el tiempo o todos respondieron), se apaga.
+        stopQuestionMusic();
+      }
+
+      // Freno de mano por si el profesor le da a "Salir" a la mitad de la pregunta
+      return () => {
+        stopQuestionMusic();
+      };
+    }, [startCountdown, isShowingResult, playQuestionMusic, stopQuestionMusic]);
 
   useEffect(() => {
     // Si ya se están mostrando los resultados o no hay jugadores, no hacemos nada
