@@ -28,6 +28,8 @@ export default function HostGame() {
     loop: true // Lo ponemos en bucle por si la pregunta dura mucho
   });
 
+  const [playResultSound] = useSound("/result.mp3", { volume: 0.7 });
+
   // Variable derivada para la pregunta actual
   const currentQ = questionsList[currentQuestionIndex];
 
@@ -89,8 +91,9 @@ export default function HostGame() {
 useEffect(() => {
     if (isShowingResult) {
       socket.emit("show_results", roomCode);
+      playResultSound(); 
     }
-  }, [isShowingResult, roomCode]);
+  }, [isShowingResult, roomCode, playResultSound]);
 
   // LOGICA DE PREGUNTA NUEVA
   useEffect(() => {
