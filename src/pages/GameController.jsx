@@ -72,16 +72,16 @@ export default function GameController() {
 
       if (isTripleTie) {
         // Triple empate: NADIE sabe su resultado en el celular hasta que pase el suspenso
-        setTimeout(() => setPodiumStep(3), 6000);
+        setTimeout(() => setPodiumStep(3), 8000);
       } else if (isDoubleTie) {
         // Empate doble: El 3ro lo sabe rápido (0.5s), el 1ro y 2do esperan el suspenso
-        setTimeout(() => setPodiumStep(1), 500);
-        setTimeout(() => setPodiumStep(3), 6000);
+        setTimeout(() => setPodiumStep(1), 3000);
+        setTimeout(() => setPodiumStep(3), 8000);
       } else {
         // Flujo normal sin empates
-        setTimeout(() => setPodiumStep(1), 500);
-        setTimeout(() => setPodiumStep(2), 2000);
-        setTimeout(() => setPodiumStep(3), 4000);
+        setTimeout(() => setPodiumStep(1), 3000);
+        setTimeout(() => setPodiumStep(2), 6000);
+        setTimeout(() => setPodiumStep(3), 10000);
       }
     };
 

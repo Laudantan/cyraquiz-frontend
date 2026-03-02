@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { socket } from "../socket";
 import confetti from "canvas-confetti";
+import useSound from "use-sound";
 
 export default function Podium() {
   const { roomCode } = useParams();
@@ -21,6 +22,20 @@ export default function Podium() {
   const [tieMessage, setTieMessage] = useState("");
   const [isTripleTie, setIsTripleTie] = useState(false);
 
+  const [playDrumroll, { pause: pauseDrumroll, stop: stopDrumroll }] = useSound("/redoble.mp3", { loop: true, volume: 0.5 });
+  const [playThird] = useSound("/tercer.mp3", { volume: 0.7 });
+  const [playSecond] = useSound("/segundo.mp3", { volume: 0.7 });
+  const [playVictory1, { stop: stopVictory1 }] = useSound("/win.mp3", { volume: 0.7 });
+  const [playVictory2, { stop: stopVictory2 }] = useSound("/aplauso.wav", { volume: 0.7 });
+
+  useEffect(() => {
+    return () => {
+      stopDrumroll();
+      stopVictory1();
+      stopVictory2();
+    };
+  }, [stopDrumroll, stopVictory1, stopVictory2]);
+  
   useEffect(() => {
     console.log("Cargando podio... Pidiendo resultados finales.");
 
@@ -72,26 +87,54 @@ export default function Podium() {
   }, []);
 
     const startAnimation = (tieDetected) => {
-    setTimeout(() => setStep(1), 500);  // Muestra 3ro
+    setTimeout(() => setStep(1), 3000);  // Muestra 3ro
 
     if (tieDetected) {
       // 1. SUSPENSO: Muestra letrero de empate
-      setTimeout(() => setStep(1.5), 2500);
+      setTimeout(() => setStep(1.5), 5000);
       
       // 2. REVELA A LOS DOS AL MISMO TIEMPO (2do y 1er lugar juntos + confeti)
       setTimeout(() => {
         setStep(3); 
         triggerConfetti();
-      }, 6000);
+      }, 8000);
     } else {
       // Flujo normal sin empate (escalonado)
-      setTimeout(() => setStep(2), 2000); // Muestra 2do
+      setTimeout(() => setStep(2), 6000); // Muestra 2do
       setTimeout(() => {
         setStep(3);
         triggerConfetti();
-      }, 4000); // Muestra 1ro
+      }, 10000); // Muestra 1ro
     }
   };
+
+  useEffect(() => {
+    if (step === 0) {
+      // Carga la pantalla: empieza el redoble de fondo
+      playDrumroll();
+    } 
+    else if (step === 1) {
+      // 3er Lugar: Pausa el redoble, suena audio de 3ro, espera 2 seg y retoma redoble
+      pauseDrumroll();
+      playThird();
+      setTimeout(() => playDrumroll(), 2000);
+    } 
+    else if (step === 1.5) {
+      // Letrero de Empate: Aquí no hacemos nada, dejamos que el redoble siga generando tensión
+    } 
+    else if (step === 2) {
+      // 2do Lugar: Pausa el redoble, suena audio de 2do, espera 2 seg y retoma redoble
+      pauseDrumroll();
+      playSecond();
+      setTimeout(() => playDrumroll(), 2000);
+    } 
+    else if (step === 3) {
+      // 1er Lugar: Cortamos el redoble de tajo y ponemos las 2 pistas de victoria juntas al mismo tiempo
+      stopDrumroll();
+      playVictory1();
+      playVictory2();
+    }
+  }, [step, playDrumroll, pauseDrumroll, stopDrumroll, playThird, playSecond, playVictory1, playVictory2]);
 
   const triggerConfetti = () => {
     const duration = 3000;
