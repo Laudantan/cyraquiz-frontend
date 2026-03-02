@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-// --- TUS IMÁGENES EXACTAS (Respetando mayúsculas y extensiones) ---
 const BACKGROUNDS = [
   "Fondo5.jpeg", 
   "Fondo1.jpg", 
@@ -15,19 +14,15 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
   const [showPassword, setShowPassword] = useState(false);
-
-  // --- NUEVO: Estado para controlar qué foto se ve ---
   const [bgIndex, setBgIndex] = useState(0);
 
-  // --- NUEVO: Temporizador que cambia la foto cada 5 segundos ---
   useEffect(() => {
     const interval = setInterval(() => {
       setBgIndex((prevIndex) => (prevIndex + 1) % BACKGROUNDS.length);
-    }, 4000); // 5000 = 5 segundos
+    }, 4000);
     
-    return () => clearInterval(interval); // Limpiamos al salir de la pantalla
+    return () => clearInterval(interval);
   }, []);
 
   const handleLogin = async (e) => {
@@ -57,47 +52,25 @@ export default function Login() {
   };
 
   return (
-    <div className="login-container" style={{ position: "relative", minHeight: "100vh", overflow: "hidden", display: "flex", justifyContent: "center", alignItems: "center" }}>
-      
-      {/* --- EL CARRUSEL DE FONDOS --- */}
+    <div className="login-container">
+
       {BACKGROUNDS.map((bg, index) => (
         <div
-          key={bg}
+        key={bg}
+          className="login-bg-image"
           style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
             backgroundImage: `url('/backgrounds/${bg}')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            opacity: index === bgIndex ? 1 : 0, // Solo la foto actual es visible
-            transition: "opacity 1.5s ease-in-out", // El efecto suave de cambio
-            zIndex: 0
+            opacity: index === bgIndex ? 1 : 0,
           }}
         />
       ))}
 
-      {/* --- CAPA DE COLOR VINO TRANSPARENTE --- 
-          (Para oscurecer un poquito las fotos y que la tarjeta blanca resalte más) */}
-      <div style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(90, 14, 36, 0.4)", // Es tu color #5A0E24 con transparencia
-        zIndex: 1
-      }} />
+      <div className="login-overlay"/>
 
-      {/* --- TU CÓDIGO ORIGINAL INTACTO (Pero flotando encima del fondo) --- */}
-      <div className="login-purple-box" style={{ position: "relative", zIndex: 2 }}>
+      <div className="login-purple-box">
         
-        {/* TARJETA BLANCA (FORMULARIO) */}
         <div className="login-card">
-          <h2 className="login-title">Hola de nuevo</h2>
-          
+          <h2 className="login-title">Hola de nuevo</h2> 
           {error && <div className="login-error">{error}</div>}
 
           <form onSubmit={handleLogin}>
@@ -112,34 +85,24 @@ export default function Login() {
                 className="login-input"
               />
             </div>
-<div className="input-group">
+
+            <div className="input-group">
               <label className="login-label">Contraseña</label>
-              <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
+              <div className="password-wrapper">
                 <input 
                   type={showPassword ? "text" : "password"} 
                   placeholder="••••••••" 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required 
-                  className="login-input"
-                  style={{ width: "100%", paddingRight: "75px" }} // Da espacio para que el texto no tape lo que escribes
+                  className="login-input password-input"
                 />
-                <button 
+                  <button 
                   type="button" 
                   onClick={() => setShowPassword(!showPassword)}
-                  style={{ 
-                    position: "absolute", 
-                    right: "15px", 
-                    background: "none", 
-                    border: "none", 
-                    cursor: "pointer", 
-                    fontSize: "0.85rem", 
-                    color: "#5A0E24", // Tu color vino
-                    fontWeight: "700",
-                    outline: "none"
-                  }}
-                  tabIndex="-1" 
-                >
+                  className="toggle-password-btn"
+                  tabIndex="-1"
+                  >
                   {showPassword ? "Ocultar" : "Mostrar"}
                 </button>
               </div>
@@ -155,7 +118,6 @@ export default function Login() {
             <Link to="/register" className="login-link">Regístrate</Link>
           </p>
         </div>
-
       </div>
     </div>
   );
