@@ -81,14 +81,14 @@
   background: linear-gradient(90deg, var(--color-vino), #9F8383);
 }
 
-.option-card {
+.edit-option-card {
   display: flex; align-items: center; padding: 15px 20px;
   background: #FAFAFA; border-radius: 12px; border: 2px solid transparent;
   transition: all 0.2s ease; position: relative; cursor: text;
 }
-.option-card:hover { background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+.edit-option-card:hover { background: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
 
-.option-card.correct {
+.edit-option-card.correct {
   background: #E8F5E9; border-color: #66BB6A;
 }
 
@@ -291,7 +291,7 @@
   margin-bottom: 30px;
 }
 
-.options-grid {
+.edit-options-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;

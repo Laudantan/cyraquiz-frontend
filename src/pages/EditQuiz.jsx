@@ -315,13 +315,13 @@ export default function EditQuiz() {
                 <div className="underline-animation"></div>
               </div>
 
-              <div className="options-grid">
+              <div className="edit-options-grid">
                 {q.options && q.options.map((opt, optIndex) => {  
                   let isCorrect = false;
                   if (Array.isArray(q.answer)) { isCorrect = q.answer.includes(opt); } else { isCorrect = q.answer === opt; }
                   
                   return (
-                    <div key={optIndex} className={`option-card ${isCorrect ? "correct" : ""}`}>
+                    <div key={optIndex} className={`edit-option-card ${isCorrect ? "correct" : ""}`}>
                       <div 
                         onClick={() => toggleCorrectAnswer(qIndex, opt)} 
                         className="check-circle"

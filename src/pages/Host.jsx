@@ -161,7 +161,7 @@ const handleUpload = async () => {
             <p className="dashboard-subtitle">Tienes <strong>{myQuizzes.length} exámenes</strong> listos.</p>
           </div>
 
-          <div sclassName="dashboard-actions">
+          <div className="dashboard-actions">
             <div className="search-wrapper">
               <input 
                 type="text" 
@@ -215,6 +215,7 @@ const handleUpload = async () => {
                       backgroundColor: `${myColor}20`, 
                       color: myColor 
                     }}>
+                      📝
                     </div>
 
                     <h3 className="quiz-card-title">
