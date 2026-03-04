@@ -1,0 +1,229 @@
+.join-wrapper {
+  min-height: 100vh;
+  background-color: var(--color-vino);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.join-logo {
+  color: white;
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+  font-weight: 800;
+}
+
+.join-card {
+  background-color: white;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.join-title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.join-input {
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid #eee;
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 15px;
+  outline: none;
+  font-weight: bold;
+  color: #333;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+.join-input:focus {
+  border-color: #D8E983;
+}
+
+.input-spacing {
+  margin-bottom: 25px;
+}
+
+.join-error {
+  color: red;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.btn-join {
+  width: 100%;
+  padding: 15px;
+  border-radius: 50px;
+  border: none;
+  background-color: #D8E983;
+  color: var(--color-vino);
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-join:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.btn-join:active {
+  transform: translateY(0);
+}
+
+.avatar-preview-container {
+  position: relative;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+}
+
+.avatar-preview-wrapper {
+  position: relative;
+}
+
+.avatar-preview-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid #D8E983;
+  overflow: hidden;
+  background-color: #f0f0f0;
+}
+
+.avatar-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.btn-edit-avatar {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-edit-avatar:hover {
+  transform: scale(1.1);
+  background-color: #555;
+}
+
+.avatar-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.85);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-modal-content {
+  width: 90%;
+  max-width: 800px;
+  height: 80%;
+  background-color: #3d3643;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.avatar-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 15px;
+}
+
+.avatar-modal-title {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.btn-close-modal {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.btn-close-modal:hover {
+  color: #FF5252;
+}
+
+.avatar-grid {
+  flex: 1;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.avatar-option {
+  cursor: pointer;
+  border-radius: 15px;
+  border: 2px solid transparent;
+  background-color: rgba(255,255,255,0.1);
+  width: 100%;
+  aspect-ratio: 1/1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
+  transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
+}
+
+.avatar-option:hover {
+  transform: scale(1.05);
+  background-color: rgba(255,255,255,0.2);
+}
+
+.avatar-option.selected {
+  border: 4px solid #00E676;
+  background-color: rgba(0, 230, 118, 0.1);
+}
+
+.avatar-option-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}

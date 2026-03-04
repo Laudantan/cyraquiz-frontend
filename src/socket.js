@@ -5,10 +5,10 @@ export const socket = io("https://cyraquiz.onrender.com", {
   transports: ["websocket", "polling"],
 });
 
-socket.on("connect", () => console.log("SOCKET CONNECT ✅", socket.id));
+socket.on("connect", () => console.log("SOCKET CONNECT", socket.id));
 socket.on("connect_error", (err) =>
-  console.log("SOCKET CONNECT_ERROR ❌", err.message)
+  console.log("SOCKET CONNECT_ERROR", err.message)
 );
 socket.on("disconnect", (reason) =>
-  console.log("SOCKET DISCONNECT ❌", reason)
+  console.log("SOCKET DISCONNECT", reason)
 );

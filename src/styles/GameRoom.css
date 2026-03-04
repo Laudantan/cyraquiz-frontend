@@ -1,0 +1,187 @@
+@keyframes pulsePin {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@keyframes popInPlayer {
+  0% { transform: scale(0) translateY(20px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.gameroom-wrapper {
+  min-height: 100vh;
+  background-color: var(--color-vino);
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.gameroom-navbar {
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.gameroom-logo {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.btn-exit-lobby {
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.btn-exit-lobby:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.gameroom-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  padding-bottom: 100px;
+}
+
+.lobby-title {
+  font-size: 2rem;
+  margin-bottom: 5px;
+  opacity: 0.9;
+}
+
+.lobby-subtitle {
+  font-size: 1.1rem;
+  opacity: 0.7;
+  margin-bottom: 20px;
+}
+
+.pin-display-box {
+  background-color: white;
+  color: var(--color-vino);
+  padding: 15px 50px;
+  border-radius: 80px;
+  font-size: 4.5rem;
+  font-weight: 800;
+  letter-spacing: 8px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  margin-bottom: 40px;
+  animation: pulsePin 3s infinite;
+}
+
+.players-container {
+  width: 90%;
+  max-width: 1200px;
+}
+
+.players-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 10px;
+}
+
+.players-count {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.players-waiting {
+  opacity: 0.5;
+  font-style: italic;
+}
+
+.players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 20px;
+  justify-content: center;
+  padding: 10px;
+}
+
+.player-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+  border-radius: 15px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: popInPlayer 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.player-avatar-wrapper {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: white;
+  overflow: hidden;
+  border: 3px solid #D8E983;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.player-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.player-name {
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  text-align: center;
+  width: 100%;
+  word-break: break-word;
+  line-height: 1.2;
+}
+
+.bottom-bar-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 20px;
+  background-color: rgba(0,0,0,0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.btn-start-game {
+  background-color: #D8E983; 
+  color: var(--color-vino); 
+  padding: 15px 80px;
+  border-radius: 50px;
+  font-size: 1.3rem;
+  font-weight: 800;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 0 30px rgba(216, 233, 131, 0.4);
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.btn-start-game:disabled {
+  background-color: #444;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.6;
+  transform: scale(1);
+}

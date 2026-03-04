@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { socket } from "../socket";
 import useSound from "use-sound";
+import "../styles/HostGame.css";
 
 export default function HostGame() {
   const { roomCode } = useParams();
@@ -152,21 +153,19 @@ useEffect(() => {
     }
   };
 
-  if (!currentQ) return <div style={{color:"white", textAlign:"center", marginTop: 50}}>Cargando pregunta...</div>;
+  if (!currentQ) return <div className="hostgame-loading">Cargando pregunta...</div>;
 
   // --- VISTA: CUENTA REGRESIVA 3..2..1 ---
   if (startCountdown >= 0) {
     return (
-      <div style={{ minHeight: "100vh", backgroundColor: "#5A0E24", color: "white", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", fontFamily: "'Poppins', sans-serif" }}>
-        <h2 style={{ fontSize: "2rem", marginBottom: "20px", textTransform: "uppercase", letterSpacing: "5px" }}>¿Listos?</h2>
-        <div key={startCountdown} style={{ 
-          fontSize: startCountdown === 0 ? "7rem" : "10rem", // Hacemos la letra un poco más chica para que quepa la palabra
-          fontWeight: "900", 
-          animation: "zoomIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)" 
-        }}>
+      <div className="countdown-container">
+        <h2 className="countdown-title">¿Listos?</h2>
+        <div key={startCountdown} 
+          className="countdown-number"
+          style={{ fontSize: startCountdown === 0 ? "7rem" : "10rem" }}
+          >
           {startCountdown === 0 ? "¡VAMOS!" : startCountdown}
         </div>
-        <style>{`@keyframes zoomIn { 0% { transform: scale(0); opacity: 0; } 60% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); } }`}</style>
       </div>
     );
   }
@@ -184,213 +183,86 @@ useEffect(() => {
     return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
   };
 
-  // --- VISTA: JUEGO ---
   return (
-    <div style={{ 
-      height: "100vh", // Usar altura exacta de pantalla para evitar scroll
-      backgroundColor: "#f0f0f0", 
-      color: "#5A0E24", 
-      fontFamily: "Poppins, Montserrat", 
-      display: "flex", 
-      flexDirection: "column", 
-      overflow: "hidden" // Evita scroll accidental
-    }}>
+    <div className="hostgame-wrapper">
 
-      {/* HEADER: ORGANIZADO COMO LA IMAGEN */}
-     <div style={{ 
-        padding: "30px 50px", 
-        display: "flex", 
-        justifyContent: "space-between", 
-        alignItems: "center",
-        width: "100%",
-        boxSizing: "border-box",
-        position: "relative", 
-        zIndex: 10
-      }}> 
+     <div className="hostgame-header"> 
 
-  {/* 1. BOTÓN SALIR (Izquierda) */}
         <button 
           onClick={() => setShowCancelModal(true)}
-          style={{ 
-            background: "#7A1032", // Un rojo más oscuro como en la imagen
-            color: "white", 
-            border: "none", 
-            padding: "10px 25px", 
-            borderRadius: "30px", 
-            fontWeight: "bold", 
-            cursor: "pointer",
-            fontSize: "1rem",
-            display: "flex",
-            alignItems: "center",
-            gap: "8px",
-            boxShadow: "0 4px 10px rgba(0,0,0,0.15)"
-          }}
-        >
+          className="btn-exit-game">
           <span>←</span> Salir
         </button>
 
-        {/* 2. PROGRESO Y RESPUESTAS (Centro) */}
-        <div style={{ 
-          position: "absolute", 
-          left: "50%", 
-          transform: "translateX(-50%)", /* Esta es la magia para centrarlo perfectamente */
-          display: "flex", 
-          gap: "50px", 
-          textAlign: "center", 
-          color: "#4A5568" 
-        }}>
+        <div className="header-center-stats">
           <div>
-            <div style={{ fontSize: "0.8rem", fontWeight: "700", letterSpacing: "1px", marginBottom: "5px" }}>PROGRESO</div>
-            <div style={{ fontSize: "1.4rem", fontWeight: "900", color: "#1A202C" }}>{currentQuestionIndex + 1}/{questionsList.length}</div>
+            <div className="stat-label">PROGRESO</div>
+            <div className="stat-number">{currentQuestionIndex + 1}/{questionsList.length}</div>
           </div>
           <div>
-            <div style={{ fontSize: "0.8rem", fontWeight: "700", letterSpacing: "1px", marginBottom: "5px" }}>RESPUESTAS</div>
-            <div style={{ fontSize: "1.4rem", fontWeight: "900", color: "#1A202C" }}>{answersCount}</div>
+            <div className="stat-label">RESPUESTAS</div>
+            <div className="stat-number">{answersCount}</div>
           </div>
         </div>
 
-        {/* 3. TIEMPO Y PUNTOS (Derecha - Cápsula con gradiente) */}
-        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+        <div className="header-right-group">
 
-        {/* Cápsula de Tiempo y Puntos (Con Borde Gradiente y Barras) */}
-          <div style={{ 
-            background: "linear-gradient(90deg, #9195F6 0%, #E294D1 100%)", // El borde gradiente de tu imagen
-            padding: "3px", // Esto simula el grosor del borde
-            borderRadius: "50px",
-            boxShadow: "0 4px 15px rgba(145, 149, 246, 0.3)" 
-          }}>
-            {/* Contenedor blanco interior */}
-            <div style={{ 
-              background: "white", 
-              borderRadius: "45px", 
-              padding: "10px 25px", 
-              display: "flex", 
-              alignItems: "center",
-              gap: "20px"
-            }}>
+          <div className="capsule-border">
+            <div className="capsule-inner">
               
-              {/* === SECCIÓN TIEMPO === */}
-              <div style={{ display: "flex", flexDirection: "column", width: "110px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
-                  {/* Icono con fondo circular moradito */}
-                  <div style={{ background: "#EEEDFA", borderRadius: "50%", width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem" }}>⏱</div>
-                  <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                    <div style={{ fontSize: "0.7rem", fontWeight: "700", color: "#64748B", letterSpacing: "1px", lineHeight: "1" }}>TIEMPO</div>
-                    <div style={{ 
-                      fontSize: "1.4rem", 
-                      fontWeight: "900", 
-                      // Lógica: Si el tiempo llega a 10s o menos, se pone rojo intenso
-                      color: (timeLeft !== null && timeLeft <= 10) ? "#D32F2F" : "#1E293B", 
-                      lineHeight: "1.1",
-                      transition: "color 0.3s ease" // Transición suave al cambiar de color
-                    }}>
+              <div className="stat-section">
+                <div className="stat-header-group">
+                  <div className="stat-icon-time">⏱</div>
+                  <div className="stat-text-col">
+                    <div className="stat-title-small">TIEMPO</div>
+                    <div className="stat-value-big"
+                      style={{ color: (timeLeft !== null && timeLeft <= 10) ? "#D32F2F" : "#1E293B"}}>
                       {formatTime(timeLeft)}
                     </div>
                   </div>
                 </div>
-                {/* Contenedor de la barra de progreso de tiempo */}
-                <div style={{ width: "100%", height: "6px", background: "#E2E8F0", borderRadius: "5px", overflow: "hidden" }}>
-                  <div style={{ 
-                    // Matemáticas para bajar la barrita: (tiempo restante / tiempo total) * 100
-                    width: `${timeLeft !== null ? (timeLeft / (currentQ.time || 20)) * 100 : 100}%`, 
-                    height: "100%", 
-                    background: "linear-gradient(90deg, #9195F6 0%, #E294D1 100%)",
-                    transition: "width 1s linear" // Esto hace que la barra baje de forma fluida y no a saltos
-                  }}></div>
+                <div className="stat-bar-bg">
+                  <div className="stat-bar-fill time-bar-anim" 
+                    style={{ width: `${timeLeft !== null ? (timeLeft / (currentQ.time || 20)) * 100 : 100}%`}}>
+                  </div>
                 </div>
               </div>
 
-              {/* Separador vertical sutil */}
-              <div style={{ width: "2px", height: "40px", background: "#F1F5F9" }}></div>
+              <div className="capsule-separator"></div>
               
-              {/* === SECCIÓN PUNTOS === */}
-              <div style={{ display: "flex", flexDirection: "column", width: "110px" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
-                  {/* Icono con fondo circular rosita */}
-                  <div style={{ background: "#FAEDF5", borderRadius: "50%", width: "32px", height: "32px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.1rem" }}>🏆</div>
-                  <div style={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                    <div style={{ fontSize: "0.7rem", fontWeight: "700", color: "#64748B", letterSpacing: "1px", lineHeight: "1" }}>PUNTOS</div>
-                    <div style={{ fontSize: "1.4rem", fontWeight: "900", color: "#1E293B", lineHeight: "1.1" }}>{currentQ.points || 100}</div>
+              <div className="stat-section">
+                <div className="stat-header-group">
+                  <div className="stat-icon-points">🏆</div>
+                  <div className="stat-text-col">
+                    <div className="stat-title-small">PUNTOS</div>
+                    <div className="stat-value-big">{currentQ.points || 100}</div>
                   </div>
                 </div>
-                {/* Barra de puntos (estática llena como en tu diseño) */}
-                <div style={{ width: "100%", height: "6px", background: "#E2E8F0", borderRadius: "5px", overflow: "hidden" }}>
-                  <div style={{ width: "100%", height: "100%", background: "linear-gradient(90deg, #9195F6 0%, #E294D1 100%)" }}></div>
+                <div className="stat-bar-bg">
+                  <div className="stat-bar-fill" style={{ width: "100%" }}></div>
                 </div>
               </div>
 
             </div>
           </div>
 
-        {/* BOTÓN SIGUIENTE (Solo aparece cuando sale la gráfica) */}
           {isShowingResult && (
-            <button 
-              onClick={handleNext} 
-              style={{ 
-                background: "#2563EB", // Un azul vibrante que contrasta
-                color: "white", 
-                border: "none", 
-                padding: "12px 25px", 
-                borderRadius: "30px", 
-                fontWeight: "900", 
-                cursor: "pointer", 
-                fontSize: "1.1rem",
-                boxShadow: "0 5px 0 #1D4ED8, 0 8px 15px rgba(0,0,0,0.2)", // Efecto botón 3D
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                transition: "transform 0.1s active" // Efecto al hacer clic
-              }}
-              // Efecto visual al presionar (el botón se "hunde")
-              onMouseDown={(e) => { e.currentTarget.style.transform = "translateY(5px)"; e.currentTarget.style.boxShadow = "0 0px 0 #1D4ED8, 0 2px 5px rgba(0,0,0,0.2)"; }}
-              onMouseUp={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 5px 0 #1D4ED8, 0 8px 15px rgba(0,0,0,0.2)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 5px 0 #1D4ED8, 0 8px 15px rgba(0,0,0,0.2)"; }}
-            >
+            <button onClick={handleNext} className="btn-next-question">
               Siguiente
             </button>
           )}
-
-      </div>
+        </div>
       </div>
         
-        {/* --- PREGUNTA CENTRAL --- */}
-      <div style={{ 
-        display: "flex", 
-        justifyContent: "center", 
-        alignItems: "center",
-        padding: isShowingResult ? "5px 40px" : "30px 40px",
-        flex: isShowingResult ? 0 : 1, // Si hay resultados, le quita espacio para dar lugar a la gráfica
-        transition: "all 0.5s ease"
-      }}>
-        <h2 style={{ 
-          fontSize: isShowingResult ? "1.8rem" : "3rem", 
-          textAlign: "center", 
-          fontWeight: "900", 
-          color: "#5A0E24", // Rojo oscuro de la imagen
-          maxWidth: "900px",
-          lineHeight: "1.3",
-          margin: 0,
-          transition: "all 0.5s ease"
-        }}>
+      <div className={`question-wrapper ${isShowingResult ? 'showing-results' : ''}`}>
+        <h2 className="question-text">
           {currentQ.question}
         </h2>
       </div>
 
-      {/* --- ÁREA DE GRÁFICA (Solo aparece cuando isShowingResult es true) --- */}
-      <div style={{ 
-        display: "flex", 
-        justifyContent: "center", 
-        alignItems: "flex-end", 
-        padding: "0 50px 15px 50px",
-        // Aquí controlamos que no crezca de más. Si no hay resultados, mide 0.
-        height: isShowingResult ? "180px" : "0px", 
-        opacity: isShowingResult ? 1 : 0,
-        overflow: "hidden", // Evita que algo sobresalga si se encoge
-        transform: isShowingResult ? "translateY(0)" : "translateY(20px)",
-        transition: "all 0.5s ease"
-      }}>
+      <div className={`chart-area ${isShowingResult ? 'showing-results' : ''}`}>
         {isShowingResult && (
-          <div style={{ display: "flex", gap: "30px", alignItems: "flex-end", height: "100%", width: "100%", maxWidth: "700px" }}>
+          <div className="chart-container">
             {stats.map((count, i) => {
                 const barColors = ["#EDA35A", "#A50E24", "#9195F6", "#574964"];
                 const icons = ["🦖", "⭐", "🌸", "🌈"];
@@ -404,52 +276,35 @@ useEffect(() => {
                 let heightPercent = (count / maxVal) * 100;
                 
               return (
-                  <div key={i} style={{ flex: 1, height: "100%", display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "center", gap: "5px" }}>
+                  <div key={i} className="chart-column">
                     
-                    {/* Contenedor de la barra y el número */}
-                    <div style={{ width: "100%", flex: 1, display: "flex", flexDirection: "column", justifyContent: "flex-end", alignItems: "center" }}>
-                      
-                      {/* Número de respuestas */}
-                      <div style={{ fontSize: "1.4rem", fontWeight: "900", color: "#4A5568", opacity: count > 0 ? 1 : 0.5, marginBottom: "5px" }}>
+                    <div className="bar-wrapper">
+
+                      <div 
+                        className="bar-count"
+                        style={{ opacity: count > 0 ? 1 : 0.5 }}
+                        >
                         {count}
                       </div>
                       
-                      {/* Barra de la gráfica */}
-                      <div style={{ 
-                        width: "100%", 
-                        height: count > 0 ? `${heightPercent}%` : "8px", 
-                        backgroundColor: barColors[i], 
-                        borderRadius: "10px 10px 0 0", // Más redondeado arriba
-                        transition: "height 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)", // Animación con efecto rebote
-                        opacity: count > 0 ? 1 : 0.3,
-                        boxShadow: count > 0 ? "0 4px 10px rgba(0,0,0,0.15)" : "none"
-                      }}></div>
+                     <div 
+                        className="bar-fill"
+                        style={{ 
+                          height: count > 0 ? `${heightPercent}%` : "8px", 
+                          backgroundColor: barColors[i], 
+                          opacity: count > 0 ? 1 : 0.3,
+                          boxShadow: count > 0 ? "0 4px 10px rgba(0,0,0,0.15)" : "none"
+                        }}
+                      ></div>
                     </div>
                     
-                   {/* Icono abajo + Palomita de correcta */}
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px", marginTop: "5px", minHeight: "25px" }}>
-                      <span style={{ fontSize: "1.2rem", filter: "drop-shadow(0 2px 2px rgba(0,0,0,0.2))" }}>{icons[i]}</span>
-                      
-                      {/* La palomita verde */}
+                    <div className="bar-footer">
+                      <span className="bar-icon">{icons[i]}</span>
+
                       {isCorrectBar && (
-                        <div style={{
-                          width: "20px",
-                          height: "20px",
-                          borderRadius: "50%",
-                          backgroundColor: "#00E676",
-                          color: "white",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          fontSize: "0.9rem",
-                          fontWeight: "bold",
-                          boxShadow: "0 2px 4px rgba(0,0,0,0.2)"
-                        }}>
-                          ✓
-                        </div>
+                        <div className="correct-checkmark">✓</div>
                       )}
                     </div>
-
                   </div>
                 )
              })}
@@ -457,31 +312,10 @@ useEffect(() => {
         )}
       </div>
 
-        {/* --- OPCIONES DE RESPUESTA --- */}
-      <div style={{ 
-        display: "grid", 
-        gridTemplateColumns: "1fr 1fr", 
-        gap: "20px", 
-        padding: "0 50px 40px 50px", 
-        height: isShowingResult ? "200px" : "350px", // Se encogen un poco si hay resultados
-        marginTop: "auto",
-        transition: "all 0.5s ease"
-      }}>
+      <div className={`options-grid ${isShowingResult ? 'showing-results' : ''}`}>
         {currentQ.options.map((opt, i) => {
-          const backgrounds = [
-            "#EDA35A", // Tu Naranja exacto
-            "#A50E24", // Tu Rojo oscuro exacto
-            "#9195F6", // Tu Morado claro exacto
-            "#574964"  // Tu Morado oscuro exacto
-          ];
-          // Colores para la "base" del botón 3D
-         const shadowColors = [
-            "#C68848", // Sombra naranja oscuro
-            "#7D0A1B", // Sombra rojo más oscuro
-            "#7579CA", // Sombra morado claro oscuro
-            "#3E3447"  // Sombra morado oscuro profundo
-          ];
-          
+          const backgrounds = ["#EDA35A", "#A50E24", "#9195F6", "#574964"];
+          const shadowColors = ["#C68848", "#7D0A1B", "#7579CA", "#3E3447"];
           const icons = ["🦖", "⭐", "🌸", "🌈"];
           
           let isCorrect = false;
@@ -494,75 +328,45 @@ useEffect(() => {
           const opacity = isShowingResult && !isCorrect ? 0.4 : 1;
 
           return (
-            <div key={i} style={{ 
-              background: backgrounds[i % 4], 
-              opacity: opacity, 
-              borderRadius: "15px", // Bordes más redondeados
-              display: "flex", 
-              alignItems: "center", 
-              padding: "0 30px", 
-              fontSize: "1.4rem", 
-              fontWeight: "700", 
-              color: "#FFFFFF", 
-              // Aquí está la magia del efecto 3D: una sombra sólida abajo y una difuminada
-              boxShadow: `0 6px 0 ${shadowColors[i % 4]}, 0 10px 20px rgba(0,0,0,0.15)`, 
-              transition: "all 0.3s ease",
-              transform: isShowingResult ? "scale(0.98)" : "scale(1)" // Efecto sutil al mostrar resultados
-            }}>
-              <span style={{ 
-                marginRight: "20px", 
-                fontSize: "2rem",
-                filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.2))" // Le da volumen al emoji
-              }}>
+            <div 
+              key={i} 
+              className="option-card"
+              style={{ 
+                background: backgrounds[i % 4], 
+                opacity: opacity, 
+                boxShadow: `0 6px 0 ${shadowColors[i % 4]}, 0 10px 20px rgba(0,0,0,0.15)`, 
+                transform: isShowingResult ? "scale(0.98)" : "scale(1)" 
+              }}
+            >
+              <span className="option-icon">
                 {icons[i % 4]}
               </span>
-              <span style={{ textShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>{opt}</span>
+              <span className="option-text">{opt}</span>
 
-              {/* Palomita de respuesta correcta */}
               {isShowingResult && isCorrect && (
-                <div style={{
-                  marginLeft: "auto",
-                  width: "30px",
-                  height: "30px",
-                  backgroundColor: "#00E676",
-                  borderRadius: "50%",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  color: "white",
-                  fontSize: "1.2rem",
-                  fontWeight: "bold",
-                  boxShadow: "0 3px 0 #00B259"
-                }}>
-                  ✓
-                </div>
+                <div className="option-correct-check">✓</div>
               )}
             </div>
           );
         })}
       </div>
 
-
-      {/* MODAL DE CONFIRMACIÓN */}
       {showCancelModal && (
-        <div style={{
-          position: "fixed", top: 0, left: 0, width: "100%", height: "100%",
-          backgroundColor: "rgba(0,0,0,0.8)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 9999
-        }}>
-          <div style={{ background: "white", padding: "30px", borderRadius: "20px", textAlign: "center", maxWidth: "400px", animation: "popIn 0.3s" }}>
-            <h2 style={{ color: "#5A0E24", margin: "0 0 10px 0" }}>¿Cancelar Juego?</h2>
-            <p style={{ color: "#666", marginBottom: "20px" }}>Si sales ahora, terminará la partida para todos.</p>
+        <div className="cancel-modal-overlay">
+          <div className="cancel-modal-content">
+            <h2 className="cancel-title">¿Cancelar Juego?</h2>
+            <p className="cancel-text">Si sales ahora, terminará la partida para todos.</p>
             
-            <div style={{ display: "flex", gap: "15px", justifyContent: "center" }}>
+            <div className="cancel-actions">
               <button 
                 onClick={() => setShowCancelModal(false)}
-                style={{ padding: "10px 20px", borderRadius: "10px", border: "1px solid #ccc", background: "transparent", cursor: "pointer" }}
+                className="btn-cancel-continue"
               >
                 Continuar
               </button>
               <button 
                 onClick={handleExitGame}
-                style={{ padding: "10px 20px", borderRadius: "10px", border: "none", background: "#D32F2F", color: "white", fontWeight: "bold", cursor: "pointer" }}
+                className="btn-cancel-exit"
               >
                 Sí, Salir
               </button>
@@ -570,8 +374,6 @@ useEffect(() => {
           </div>
         </div>
       )}
-
-      <style>{`@keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }`}</style>
     </div>
   );
 }
