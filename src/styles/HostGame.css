@@ -224,13 +224,13 @@
   justify-content: center;
   align-items: flex-start;
   align-items: center;
-  padding: 10px 40px 20px 40px;
+  padding: 0px 40px 20px 40px;
   flex: 1;
   transition: all 0.5s ease;
 }
 
 .question-wrapper.showing-results {
-  padding: 20px 40px 5px 40px;
+  padding: 0px 40px 5px 40px;
   flex: 0;
 }
 
