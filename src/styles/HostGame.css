@@ -340,10 +340,12 @@
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   padding: 0 50px 40px 50px;
-  height: 350px;
+  height: 35vh; 
+  min-height: 280px;
   margin-top: auto;
   transition: all 0.5s ease;
   flex-shrink: 0;
+  box-sizing: border-box;
 }
 
 .options-grid.showing-results {
