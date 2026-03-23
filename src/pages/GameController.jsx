@@ -17,6 +17,23 @@ export default function GameController() {
   const [podiumStep, setPodiumStep] = useState(0);
 
   useEffect(() => {
+    const handleReconnect = () => {
+      console.log("Reconexión detectada. Volviendo a unirse a la sala...");
+      socket.emit("join_room", { roomCode: pin, playerName: myName });
+    };
+
+    socket.on("connect", handleReconnect);
+
+    if (socket.connected) {
+      handleReconnect();
+    }
+
+    return () => {
+      socket.off("connect", handleReconnect);
+    };
+  }, [pin, myName]);
+
+  useEffect(() => {
     const onNewQuestion = (q) => {
       console.log("Nueva pregunta recibida:", q);
       if (q && q.options && Array.isArray(q.options) && q.options.length > 0) {

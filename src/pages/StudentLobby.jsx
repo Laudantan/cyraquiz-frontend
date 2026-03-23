@@ -12,25 +12,38 @@ export default function StudentLobby() {
   const [status, setStatus] = useState("Esperando al profesor...");
 
   useEffect(() => {
-    if (socket.connected) {
+    const joinRoom = () => {
+      console.log("Intentando unirse a la sala...");
       socket.emit("join_room", { roomCode: pin, playerName: myName, avatar: myAvatar });
+    };
+
+    if (socket.connected) {
+      joinRoom();
     }
+
+    socket.on("connect", joinRoom);
 
     const handleGameStart = () => {
       console.log("¡El juego comenzó! Moviendo al control...");
-      setStatus("¡El juego comienza! 🚀");
+      setStatus("¡El juego comienza!");
       
       setTimeout(() => {
         navigate(`/game/${pin}`, { state: { name: myName } });
       }, 500); 
     };
 
-    socket.on("game_started", handleGameStart);
+    const handleLateJoin = () => {
+      console.log("¡El juego ya estaba en curso! Brincando directo al control...");
+      navigate(`/game/${pin}`, { state: { name: myName } });
+    };
 
-    console.log(`Lobby cargado. Escuchando 'game_started' en sala ${pin}`);
+    socket.on("game_started", handleGameStart);
+    socket.on("new_question", handleLateJoin);
 
     return () => {
+      socket.off("connect", joinRoom);
       socket.off("game_started", handleGameStart);
+      socket.off("new_question", handleLateJoin);
     };
   }, [pin, navigate, myName, myAvatar]);
 
