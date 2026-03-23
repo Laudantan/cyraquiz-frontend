@@ -19,10 +19,15 @@ export default function GameController() {
   useEffect(() => {
     const onNewQuestion = (q) => {
       console.log("Nueva pregunta recibida:", q);
+      if (q && q.options && Array.isArray(q.options) && q.options.length > 0) {
       setCurrentOptions(q.options);
-      setQuestionType(q.type);
+      setQuestionType(q.type || "single");
       setSelectedOptions([]);
       setGameState("answering");
+      } else {
+        console.error("⚠️ Se recibió una pregunta corrupta o incompleta", q);
+        setGameState("waiting"); 
+      }
     };
 
     const onAnswerResult = (result) => {
@@ -233,7 +238,17 @@ export default function GameController() {
   const colors = ["#EDA35A", "#851535", "#9195F6", "#574964"]; 
   const icons = ["🦖", "⭐", "🌸", "🌈"];
 
+  if (gameState === "answering" && (!currentOptions || currentOptions.length === 0)) {
   return (
+    <div className="screen-base screen-purple">
+        <div className="emoji-spin" style={{ fontSize: "3rem", marginBottom: "20px" }}>⏳</div>
+        <h2 className="screen-title">Sincronizando...</h2>
+        <p className="screen-subtitle">Espera un momento</p>
+      </div>
+    );
+  }
+
+    return (
     <div className="play-area-wrapper">
 
       <div className="info-bar">
